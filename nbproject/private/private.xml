@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/wamp/www/xg/app/Http/Controllers/AdminController.php</file>
+            <file>file:/C:/wamp/www/xg/resources/views/dashboard/index.blade.php</file>
+            <file>file:/C:/wamp/www/xg/app/User.php</file>
+            <file>file:/C:/wamp/www/xg/resources/views/dashboard/leaderboard.blade.php</file>
+            <file>file:/C:/wamp/www/xg/resources/views/layout/master.blade.php</file>
+            <file>file:/C:/wamp/www/xg/app/Http/Controllers/VaultController.php</file>
+            <file>file:/C:/wamp/www/xg/app/Objectiveprogress.php</file>
+            <file>file:/C:/wamp/www/xg/app/Objective.php</file>
+            <file>file:/C:/wamp/www/xg/resources/views/admindashboard/uploads.blade.php</file>
+            <file>file:/C:/wamp/www/xg/app/Http/Controllers/DashboardController.php</file>
+            <file>file:/C:/wamp/www/xg/app/Objectiveleaderboard.php</file>
+            <file>file:/C:/wamp/www/xg/resources/views/dashboard/profile.blade.php</file>
+        </group>
+    </open-files>
+</project-private>
