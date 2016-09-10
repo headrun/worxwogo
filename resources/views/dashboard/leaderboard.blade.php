@@ -119,6 +119,22 @@ Objectives Leaderboard
 <div> 
     
     <table class="table" style="background-color: #fff; margin-top:15px">
+        <thead> 
+            <tr>
+                <td class="name">
+                    <h4 style="font-weight:bold">Rank</h4>
+                </td>
+                <td class="name">
+                    <h4 style="font-weight:bold">Name</h4>
+                </td>
+                <td class="name">
+                    <h4 style="font-weight:bold">Territory</h4>
+                </td>
+                <td class="name">
+                    <h4 style="font-weight:bold" class="text-right">points</h4>
+                </td>
+            </tr>
+        </thead>
         @foreach($objleaderboarddata as $leaddata)
         <tr valign="middle">
             <td class="name"><h4>{{$leaddata->rank}}</h4></td>

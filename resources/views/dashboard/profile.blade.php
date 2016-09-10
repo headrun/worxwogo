@@ -265,8 +265,8 @@
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;border-radius:50%;"/>
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;border-radius:50%;"/>
+                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
                     <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('M Y d')}} </em></label>
                 </div>

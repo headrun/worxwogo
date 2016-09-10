@@ -23,6 +23,19 @@
                 td{
                 font-size: 2.5vw;
                 }
+                
+                .progress{
+                    margin-left:25px;
+                    width:84%;
+                    height:30px;
+                }
+                .progress-text{
+                    margin-top:5px;
+                    
+                }
+                .comment{
+                    margin-left:40px;
+                }
                 .img-circle{
                     margin-top: 14px;
                     width:80%;
@@ -76,6 +89,19 @@
                 td{
                 font-size: 1.5vw;
                 }
+                
+                .progress{
+                    margin-left:45px;
+                    width:84%;
+                    height:30px;
+                }
+                .progress-text{
+                    margin-top:5px;
+                    
+                }
+                .comment{
+                    margin-left:35px;
+                }
                 .img-circle{
                     margin-top: 10px;
                     width:60%;
@@ -120,6 +146,20 @@
                 td{
                 font-size: 1vw;
                 }
+                
+                .progress{
+                    margin-left:50px;
+                    width:84%;
+                    height:30px;
+                }
+                .progress-text{
+                    margin-top:5px;
+                    
+                }
+                
+                .comment{
+                    margin-left:40px;
+                }
                 .img-circle{
                     margin-top: 10px;
                     width:50%;
@@ -150,6 +190,19 @@
                 }
                 td{
                 font-size: 1vw;
+                }
+                
+                .comment{
+                    margin-left:50px;
+                }
+                .progress{
+                    margin-left:60px;
+                    width:84%;
+                    height:30px;
+                }
+                .progress-text{
+                    margin-top:5px;
+                    
                 }
                 .hbrand{
                     height:105px;
@@ -242,8 +295,8 @@
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;border-radius:50%;"/>
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;border-radius:50%;"/>
+                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
                     <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
                 </div>
