@@ -22,6 +22,7 @@ use App\Errobjlist;
 use App\Erruserlist;
 use App\Errleaderboardlist;
 use App\Errobjectiveprogresslist;
+use App\Badges;
 
 class AdminController extends Controller
 {
@@ -120,7 +121,8 @@ class AdminController extends Controller
                                               'seg_obj_vgood_end_per','seg_obj_ach_value','qty_highest_ach_no',
                                               'qty_current_ach_no','qty_value_units','objective_points',
                                               'created_ts','status','client_name'];
-            $columnnames['badges']        =[''];
+            $columnnames['badgesextract']=['user_name','user_mobile_no','user_employee_code','user_badge_name',
+                                            'user_badge_image_name','created_ts','status','client_name'];
             
                                         
          // Selecting the table and validating the colums and inserting to db
@@ -280,6 +282,56 @@ class AdminController extends Controller
                                  }
                                  break;
             case 'badgesextract':
+                                 $uploadstatusdata['insert_table']='BADGES';
+                                 $uploadstatusdata['client_id']=$inputs['client'];
+                                 $uploadstatusdata['status']='FAILURE';
+                                 if(!empty($data) && $data->count()){
+                                    
+                                    
+                                        for($i=0;$i<count($data);$i++){
+                                            //checking for all the fields exists in objectivelist
+                                            
+                                            
+                                            $columnstatus=AdminController::checkforcolumn($columnnames['badgesextract'],$data[$i]);
+                                            if(($columnstatus==1)){
+                                                //Getting the instance of UploadStatus
+                                                if($i==0){
+                                                    $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                }
+                                                // now checking for Data Validations
+                                                $datacheck=AdminController::checkfordata($data[$i],$columnnames['badgesextract']);
+                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                    $data2['client_id']=$clientdata->id;
+                                                    $data2['upload_id']=$upload_status->id;
+                                                    $badges =  Badges::insertBadges($data[$i],$data2);
+                                                     $error=0;
+                                                }else{
+                                                    $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['badgesextract']);
+                                                    if($rowemptycheck){
+                                                    // Data Validation Error insert to Error table
+                                                    $data2['client_id']=$clientdata->id;
+                                                    $data2['upload_id']=$upload_status->id;
+                                                    $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
+                                                    $error=1;
+                                                    $errobj_list=Errbadges::insertbadgeserrlist($data[$i],$data2);
+                                                    }
+                                                }
+                                            }else{
+                                            // Column not found error
+                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                            }
+                                        }
+                                        if(!$error){
+                                            $upload_status->status='SUCCESS';
+                                            $upload_status->save();
+                                            return  Response::json(array('status'=>'success'));
+                                        }else{
+                                            return  Response::json(array('status'=>'Failure','type'=>'inserted to error logtable'));
+                                        }
+                                            
+                                                    
+                                    
+                                 }
                                 break;
             case 'leaderboardextract':
                                 $uploadstatusdata['insert_table']='OBJECTIVE_LEADERBOARD';

@@ -3,12 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/wamp/www/worxogo/app/Http/Controllers/DashboardController.php</file>
-            <file>file:/C:/wamp/www/worxogo/app/Objectiveleaderboard.php</file>
-            <file>file:/C:/wamp/www/worxogo/resources/views/dashboard/index.blade.php</file>
-            <file>file:/C:/wamp/www/worxogo/resources/views/layout/master.blade.php</file>
-            <file>file:/C:/wamp/www/worxogo/resources/views/dashboard/profile.blade.php</file>
-            <file>file:/C:/wamp/www/worxogo/resources/views/dashboard/leaderboard.blade.php</file>
+            <file>file:/C:/wamp/www/worxogo/app/Objective.php</file>
+            <file>file:/C:/wamp/www/worxogo/app/Http/Controllers/AdminController.php</file>
+            <file>file:/C:/wamp/www/worxogo/app/Errbadges.php</file>
+            <file>file:/C:/wamp/www/worxogo/app/Badges.php</file>
         </group>
     </open-files>
 </project-private>

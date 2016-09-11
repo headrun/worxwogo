@@ -94,11 +94,15 @@
 
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
-        ['Genre','bad','good','vgood', { role: 'annotation' } ],
+        ['Genre','bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%',
+            'good[{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]%',
+            'vgood[{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%', 
+        ],
         ['', {{$objective->seg_bad_end_percentage}}, 
             <?php echo $objective->seg_good_end_percentage-$objective->seg_bad_end_percentage;?>, 
             <?php echo $objective->seg_vgood_end_percentage-$objective->seg_good_end_percentage;?>,
-            '']
+           
+        ]
         ]);
 
         // Set chart options
@@ -112,12 +116,12 @@
             minValue: 0,
             <?php if(($objective->seg_obj_achvd_value >= $objective->seg_good_end_percentage) && ($objective->seg_obj_achvd_value <= $objective->seg_vgood_end_percentage)){ ?>
             
-            ticks: [0,{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},{{$objective->seg_obj_achvd_value/100}},{{$objective->seg_vgood_end_percentage/100}}, 1]
+            ticks: [0,/*{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},*/{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_vgood_end_percentage/100}}, 1*/]
             
             <?php }else if(($objective->seg_obj_achvd_value >= $objective->seg_bad_end_percentage) && ($objective->seg_obj_achvd_value <= $objective->seg_good_end_percentage)){?>
-            ticks: [0,{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_obj_achvd_value/100}},{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1]
+            ticks: [0,/*{{$objective->seg_bad_end_percentage/100}},*/{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1*/]
             <?php }else{ ?>
-            ticks: [0,{{$objective->seg_obj_achvd_value/100}},{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1]
+            ticks: [0,{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1*/]
             <?php } ?>
           }
         };
