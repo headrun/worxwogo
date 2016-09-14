@@ -15,13 +15,17 @@
             }
             @media(max-width:767px){
                 h4 {
-                font-size: 4vw;
+                font-size: 3.8vw;
                 }
                 h5{
-                font-size: 3vw;
+                font-size: 2.8vw;
                 }
                 td{
-                font-size: 2.5vw;
+                font-size: 2.4vw;
+                }
+                label{
+                font-weight:400;
+                
                 }
                 
                 .progress{
@@ -35,7 +39,9 @@
                 }
                 .comment{
                     margin-left:40px;
+                    font-size: x-small;
                 }
+                
                 .img-circle{
                     margin-top: 14px;
                     width:80%;
@@ -238,7 +244,7 @@
                 border-color:#00BBD3 !important;
             }
             .navbar{
-                    min-height: 130px;
+                    min-height: 140px;
                     margin-bottom:0px!important;
                 }
             .active{
@@ -259,6 +265,10 @@
             }
             .navbar-toggle {
                 z-index:3;
+            }
+            .leaderboard-toolbar{
+                background-color: #0096A9 /*blue*/;
+                color:#fff;
             }
 
         </style>
@@ -289,14 +299,14 @@
                         <label style="color:white;">@yield('pageheading')</label>
                         <h4 class="text-center"><a href="{{url()}}/dashboard/profile" style="color:white;">{{Session::get('name')}}</a>   
                         </h4>
-                        <h5 class="text-center"><label style=" border:solid 2px; padding: 5px; border-radius:35%;color:white">{{$user->user_points}} points</label></h5>
+                        <h5 class="text-center"><label style=" border:solid 2px; padding: 5px; border-radius:35%;color:white">Total Points:{{$user->user_points}}</label></h5>
                 
                     </div>
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
                     <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
                 </div>
@@ -320,7 +330,9 @@
                 </div>
             </div>
         </nav>
-
+<div class="row leaderboard-toolbar">
+    <h4 class="text-center ">Sales Activity</h4><br>
+</div>
         @yield('content')
         
 <!--        

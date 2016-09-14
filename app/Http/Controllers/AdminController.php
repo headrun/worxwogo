@@ -23,6 +23,7 @@ use App\Erruserlist;
 use App\Errleaderboardlist;
 use App\Errobjectiveprogresslist;
 use App\Badges;
+use App\Errbadges;
 
 class AdminController extends Controller
 {
@@ -76,7 +77,8 @@ class AdminController extends Controller
     
     static public function rowemtycheck($row,$columnnames){
         for($j=0;$j<count($row);$j++){
-            if($row[$columnnames[$j]]!='NULL'||$row[$columnnames[$j]]!='null'||$row[$columnnames[$j]]!='Null'||$row[$columnnames[$j]]!=null){
+            
+            if(!is_null($row[$columnnames[$j]])){
                 return 0;
             }
         }
@@ -153,7 +155,7 @@ class AdminController extends Controller
                                                      $error=0;
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['objectivelist']);
-                                                    if($rowemptycheck){
+                                                    if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
@@ -198,7 +200,7 @@ class AdminController extends Controller
                                                 // now checking for Data Validations
                                                 
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['userslist']);
-                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                if(($datacheck == '1' )&&(!strcmp($data[$i]['client_name'],$clientdata->client_name))){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     
@@ -207,14 +209,15 @@ class AdminController extends Controller
                                                      $error=0;
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['userslist']);
-                                                    if($rowemptycheck){
+                                                    if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                         $data2['client_id']=$clientdata->id;
                                                         $data2['upload_id']=$upload_status->id;
-                                                        $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
                                                         $error=1;
+                                                        $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
                                                         $errobj_list=Erruserlist::insertusererrlist($data[$i],$data2);
                                                     }
+                                                    
                                                 }
                                      }else{
                                             // Column not found error
@@ -257,7 +260,7 @@ class AdminController extends Controller
                                                     $error=0;
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['objectiveextract']);
-                                                    if($rowemptycheck){
+                                                    if(!$rowemptycheck){
                                                         // Data Validation Error insert to Error table
                                                         $data2['client_id']=$clientdata->id;
                                                         $data2['upload_id']=$upload_status->id;
@@ -307,7 +310,8 @@ class AdminController extends Controller
                                                      $error=0;
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['badgesextract']);
-                                                    if($rowemptycheck){
+                                                    //return Response::json($rowemptycheck);
+                                                    if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
@@ -357,7 +361,7 @@ class AdminController extends Controller
                                                      $error=0;
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['leaderboard']);
-                                                    if($rowemptycheck){
+                                                    if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;

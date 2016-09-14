@@ -12,12 +12,13 @@
 */
 
 //*********************************** Default Route *************************//
-Route::get('/',"VaultController@register" );
-
+Route::get('/{company_name}',"VaultController@register" );
+Route::get('/',"VaultController@def" );
+Route::post('/login',"VaultController@login");
 //***************************** Login and Register Routes *******************//
 Route::group(array('prefix' => 'vault'), function() {
     //User Login
-    Route::any('Register', "VaultController@register");
+    //Route::any('Register', "VaultController@register");
     // Admin Login
     Route::any('adminlogin', "VaultController@adminLogin");
     

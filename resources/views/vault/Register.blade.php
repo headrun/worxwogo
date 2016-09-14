@@ -30,16 +30,17 @@
             <div class=" col-lg-4 col-md-4  col-sm-8 col-xs-8 login-box center-block text-center" 
                 style=" margin-top: 10%; float: none !important;" >
                 <div>
-                    <img src="{{url()}}/assets/img/logo/jktyre.jpg" style="height:76px; width:226px;"></img>
+                    <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" style="height:76px; width:226px;"></img>
                 </div>
             <br>
                 
-            {!! Form::open(array('url' => '/vault/Register', 'id'=>"registerloginForm", "class"=>"", 'method' => 'post')) !!}
+            {!! Form::open(array('url' => '/login', 'id'=>"registerloginForm", "class"=>"", 'method' => 'post')) !!}
             {!! csrf_field() !!}
             <div >
             <input type="text" class="form-control" placeholder="Mobile Number" name="mobileNumber" id="mobileNumber" id="inputError"  
                    maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57' autocomplete="off" />
             <span class="glyphicon glyphicon-warning-sign form-control-feedback remove" style="display: none;"></span>
+            <input type="hidden" value="{{$client_data['id']}}" name="client_id" id="client_id"/>
             </div>
             <div id="errormsg" class="errormsg control-group error" style="font-size:12px; color:red;"> </div>
             <br>

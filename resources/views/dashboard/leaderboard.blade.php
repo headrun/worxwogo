@@ -1,10 +1,7 @@
 @extends('layout.master')
 @section('libraryCSS')
 <style>
-    .leaderboard-toolbar{
-        background-color: #0096A9 /*blue*/;
-        color:#fff;
-    }
+    
     .circle{
         width: 75px;
 	height: 75px;
@@ -85,31 +82,12 @@
 @stop
 
 @section('pageheading')
-Objectives Leaderboard
+Objectives <br class="visible-xs">Leaderboard
 @stop
 
 @section('content')
 <div class="container-fluid">
-<div class="row leaderboard-toolbar">
-    <h4 class="text-center ">Sales Activity</h4><br>
-<!--    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">        
-        <div class="circle btn">
-            1
-            <br>
-            Day
-        </div>
-        <div class="circle btn toolbaractive">
-            1
-            <br>
-            Week
-        </div>
-        <div class="circle btn">
-            1
-            <br>
-            Month
-        </div>
-    </div>-->
-</div>
+
 <div  class="row " style="position:relative;">
     <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6 center-block text-center objective-name " >
       <h5>Leaderboard :  {{Session::get('region')}}</h5>
@@ -131,7 +109,7 @@ Objectives Leaderboard
                     <h4 style="font-weight:bold">Territory</h4>
                 </td>
                 <td class="name">
-                    <h4 style="font-weight:bold" class="text-right">points</h4>
+                    <h4 style="font-weight:bold" class="text-right">Points</h4>
                 </td>
             </tr>
         </thead>

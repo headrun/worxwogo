@@ -14,40 +14,59 @@ use App\Http\Controllers\Controller;
 
 class vaultController extends Controller
 {
-    public function login($clientName){
-        if(Clients::where('client_name','=',$clientName)->where('status','=','A')->exists()){
-            
+    public function login(Request $request){
+        $inputs = $request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['client_id']) && User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('client_id','=',$inputs['client_id'])->where('status','=','A')->exists()){
+            $user_data=User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('client_id','=',$inputs['client_id'])->where('status','=','A')->get();
+            $user_data=$user_data[0];
+            Auth::loginUsingId($user_data['id']);
+            Session::put('userId', $user_data->id);
+            Session::put('clientId', $user_data->client_id);
+            Session::put('name', $user_data->name);
+            Session::put('points', $user_data->user_points);
+            Session::put('mobileNumber', $user_data->mobilenumber);
+            Session::put('userType', $user_data->user_type);
+            Session::put('region', $user_data->region);
+            Session::put('territory', $user_data->territory);
+            return redirect()->intended('/dashboard/index');
+               
+        }else{
+            $client_data=Clients::find($inputs['client_id']);
+            //return $client_data['client_name'];
+             return vaultController::register($client_data['client_name']);
+           // $viewData = array('client_data');
+           // return view('/vault/Register',compact($viewData));/*,compact($viewData)*/
         }
     }
     
-    public function register(Request $request){
-        $inputs = $request->all();
+    public function register($company_name){
         
             if(Session::get('mobileNumber') && (Session::get('userType')=='USER') ){
                 return Redirect::action('DashboardController@index');
                 
             }else{
-                if (isset($inputs['mobileNumber']) && User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('status','=','A')->exists()){//Auth::attempt(array('mobilenumber' => $inputs['mobileNumber']))
-                    $user_data=User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('status','=','A')->get();
-                    $user_data=$user_data[0];
-                    Auth::loginUsingId($user_data['id']);
-                    Session::put('userId', $user_data->id);
-                    Session::put('clientId', $user_data->client_id);
-                    Session::put('name', $user_data->name);
-                    Session::put('points', $user_data->user_points);
-                    Session::put('mobileNumber', $user_data->mobilenumber);
-                    Session::put('userType', $user_data->user_type);
-                    Session::put('region', $user_data->region);
-                    Session::put('territory', $user_data->territory);
-                    return redirect()->intended('/dashboard/index');
-               
-            }else{
-               // $viewData = array('clientName');
-                return view('/vault/Register');/*,compact($viewData)*/
-            }
+                if(Clients::where('client_name','=',$company_name)->exists()){
+                    $client_data=  Clients::where('client_name','=',$company_name)->get();
+                    $client_data=$client_data[0];
+                    $viewData = array('client_data');
+                    return view('/vault/Register',compact($viewData));/*,compact($viewData)*/
+
+                }else{
+                    //show company not found
+                    return "Company not Registered";
+                }
         
         }
      
+    }
+    
+    public function def(){
+        if(Session::get('mobileNumber') && (Session::get('userType')=='USER') ){
+                return Redirect::action('DashboardController@index');
+                
+            }else{
+                  return " use xg/companyname";
+            }
     }
     
     public function adminLogin(Request $request){
@@ -73,14 +92,16 @@ class vaultController extends Controller
     
     
     public function logout(){
-        $user_type=Session::get('userType');            
+        $user_type=Session::get('userType');
+        $client_data=Clients::find(Session::get('clientId'));
         Session::flush();
 	Session::flash('message', 'You have successfully logged out of the system.');
 	Session::flash('alert-class', 'alert-success');
         if($user_type=='ADMIN'){
             return Redirect::action('VaultController@adminLogin');   
         }else if($user_type=='USER'){
-            return Redirect::action('VaultController@register');
+            $destination='/'.$client_data['client_name'];
+            return Redirect::to($destination);
         }
         
     }

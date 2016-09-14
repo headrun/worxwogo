@@ -29,6 +29,10 @@
                     
                 }
                 
+                .badges{
+                    width:75px!important;
+                    height:75px!important;
+                }
                 
                 .page-heading{
                     font-size:12px; 
@@ -233,7 +237,10 @@
                     color:#000;
                 }
             }
-            
+            .leaderboard-toolbar{
+                background-color: #0096A9 /*blue*/;
+                color:#fff;
+            }
         </style>
           <!-- JS -->
         <script src="{{url()}}/assets/js/jquery.js"></script>
@@ -258,17 +265,17 @@
                 <div class="navbar-header">
                     <div class="navbar-brand">
                         <label style="color:white;"></label>
-                        <h4 class="text-center"><a href="{{url()}}/dashboard/profile" style="color:white;">Profile Info</a>   
+                        <h4 class="text-center" style="color:white;">Profile Info   
                         </h4>
                         
                     </div>
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
-                        <img src="{{url()}}/assets/img/tvs.jpg" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}"" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}"" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
-                    <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('M Y d')}} </em></label>
+                    <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
                 </div>
                 
                 <div class="nav navbar-nav navbar-right text-right">
@@ -290,7 +297,9 @@
                 </div>
             </div>
         </nav>
-
+<div class="row leaderboard-toolbar">
+    <h4 class="text-center ">Sales Activity</h4><br>
+</div>
 
         <!-- header -->
 
@@ -313,10 +322,94 @@
 
 		<div class="tab-content clearfix">
                     <div class="tab-pane active" id="1b">
-                        <h4>Badges Here</h4>
+                        @if(!count($badges_data))
+                        <h4>You are still to Win your 1st badge</h4>
+                        @else
+                        <div class="row">
+                            @foreach($badges_data as $badge)
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4 text-center">
+                                <img class="badges" src="{{url()}}/assets/img/Badges/{{$badge->badge_img_name}}" style="height:150px;width:150px;"/>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endif
                     </div>
                     <div class="tab-pane" id="2b">
-                        <h4>Points:{{$userdata->user_points}}</h4>
+                        <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;"> 
+                            <thead style="background-color:#4472C4;color:white;s">
+                                <tr>
+                                <th>Sr</th>
+                                <th>Activity</th>
+                                <th>Description</th>
+                                <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background-color:#D9E2F3;">
+                                    <td>1</td>
+                                    <td>MSP (Value)</td>
+                                    <td>Every % achievement of MSP (in Rs. Lacs) against the monthly target</td>
+                                    <td class="text-right">20</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">2</td>
+                                    <td rowspan="2">Category Mix – Truck (Qty)</td>
+                                    <td>If the percentage target achievement for the truck category is between 70-89%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr>
+                                        <td>If the percentage target achievement for the truck category is greater than 90%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr style="background-color:#D9E2F3;">
+                                    <td rowspan="2">3</td>
+                                    <td rowspan="2">Category Mix Non–Truck (Qty)</td>
+                                    <td>If the percentage target achievement for the non-truck category is between 50-69%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr style="background-color:#D9E2F3;">
+                                        <td>If the percentage target achievement for the non-truck category is greater than 70%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr>
+                                    <td rowspan="2">4</td>
+                                    <td rowspan="2">Category Mix – 2/3 Wheelers (Qty)</td>
+                                    <td>If the percentage target achievement for the 2/3 wheeler category is between 70-89%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr>
+                                        <td>If the percentage target achievement for the 2/3 wheeler category is greater than 90%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr style="background-color:#D9E2F3;">
+                                    <td>5</td>
+                                    <td>Petro/OE</td>
+                                    <td>For every Petro or OE dealer appointed</td>
+                                    <td class="text-right">1000</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>New/PTP/Steel Wheel</td>
+                                    <td>For every New, PTP or Steel Wheel dealer appointed</td>
+                                    <td class="text-right">2000</td>
+                                </tr>
+                                <tr style="background-color:#D9E2F3;">
+                                    <td>7</td>
+                                    <td>SAS</td>
+                                    <td>Every % increment in SAS against the year beginning value</td>
+                                    <td class="text-right">100</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2">8</td>
+                                    <td rowspan="2">PJP</td>
+                                    <td>If PJP adherence on a daily basis is between 80-89%</td>
+                                    <td class="text-right">50</td>
+                                </tr>
+                                    <tr>
+                                        <td>If PJP adherence on a daily basis is between 90-100%</td>
+                                        <td class="text-right">100</td>
+                                    </tr>
+                        </table>
                     </div>
                     <div class="tab-pane" id="3b">
                         <div class="row">
@@ -355,7 +448,7 @@
                     </div>
                 </div>
             </div>
-        
+            <br><br>
 
 
     </body>

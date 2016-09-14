@@ -96,21 +96,42 @@
         var data = google.visualization.arrayToDataTable([
         ['Genre','bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%',
             'good[{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]%',
-            'vgood[{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%', 
+            'vgood[{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%', {type: 'string', role: 'tooltip'},
+             {type: 'string', role: 'annotation'},
         ],
         ['', {{$objective->seg_bad_end_percentage}}, 
             <?php echo $objective->seg_good_end_percentage-$objective->seg_bad_end_percentage;?>, 
             <?php echo $objective->seg_vgood_end_percentage-$objective->seg_good_end_percentage;?>,
-           
+           '','12345',
         ]
         ]);
 
         // Set chart options
         
         var options = {
+          tooltip: {isHtml: true},
           isStacked: 'percent',
           height:90,
-          legend: {position: 'top', maxLines: 1},
+          chartArea: {width: '50%'},
+          annotations: {
+          alwaysOutside: true,
+          textStyle: {
+            fontSize: 12,
+            auraColor: 'none',
+            color: '#555'
+          },
+          boxStyle: {
+            stroke: '#ccc',
+            strokeWidth: 1,
+            gradient: {
+              color1: '#f3e5f5',
+              color2: '#f3e5f5',
+              x1: '0%', y1: '0%',
+              x2: '100%', y2: '100%'
+            }
+          }
+        },
+          legend: {position: 'none', maxLines: 3},
           colors:['#d9534f','orange','lightgreen'],
           hAxis: {
             minValue: 0,
@@ -168,7 +189,8 @@
     
 <script>
     $('.card').click(function(){
-        window.location.assign('{{url()}}/dashboard/leaderboard');
+        
+        window.location.assign('{{url()}}/dashboard/leaderboard'/*+$(this).attr('title')*/);
     });
 
 </script>
@@ -187,7 +209,7 @@ My Objectives
 
     <?php if($objective->objective_type==='QUANTITY'){ ?>
 <!--Card-->
-        <div class="card">
+        <div class="card" title="{{$objective->obj_text}}">
             <!--Card content-->
             <div class="card-block">
              <!--Title-->
@@ -196,17 +218,17 @@ My Objectives
                     <h4 class="card-title">{{$objective->obj_text}}</h4>
                  </div>
                  <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
-                     <h5 class="card-title text-right">Earned points</h5>
+                     <h5 class="card-title text-right">Points</h5>
                  </div>
              </div>
                 <!--Text-->
                 <div class="row">
-                    <div class="col-lg-8  col-md-8  col-sm-8 col-xs-9">
-                        <label class="text-center milestone" style=" font-size:12px;  margin-left: 15px; border:solid 2px; border-radius:30%; padding:10px;color:#00BBD3;">MILESTONE <br> {{$objective->qty_current_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></label>
-                        {{$objective->qty_highest_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?>
+                    <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
+                        <label class="text-center milestone" style=" font-size:12px;  margin-left: 15px; border:solid 2px; border-radius:30%; padding:10px;color:#00BBD3;">MILESTONE <br><span style="font-weight:bolder;font-size:15px;"> {{$objective->qty_current_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span></label>
+                        <span style="font-weight:bolder;font-size:15px;">{{$objective->qty_highest_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span>
                         <br>
                     </div>
-                    <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
+                    <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
                         <h2 class="text-right" style="margin-top:15px;">{{$objective->obj_points}}</h2>
                     </div>
                 </div>
@@ -221,40 +243,42 @@ My Objectives
 
 <!--Card-->
 
-<div class="card" >
+<div class="card" title="{{$objective->obj_text}}">
     <!--Card content-->
     <div class="card-block">
         <!--Title-->
        <div class="row">
-                 <div class="col-lg-8  col-md-8  col-sm-8 col-xs-9">
+                 <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
                     <h4 class="card-title">{{$objective->obj_text}}</h4>
                  </div>
-                 <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
-                     <h5 class="card-title text-right">Earned points</h5>
+                 <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
+                     <h5 class="card-title text-right">Points</h5>
                  </div>
        </div>
         <!--Text-->
         <div class="row">
-            <div class="col-lg-8  col-md-8  col-sm-8 col-xs-9">
+            <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
 <!--                <div id="{{'chart'.$objective->id}}" class="chart" style="margin-left:-10px"></div>-->
                 
                 <div class=" progress " >
                     <div class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="{{$objective->target_ach_percentage}}"
-                        aria-valuemin="0" aria-valuemax="100" style="width:{{$objective->target_ach_percentage}}%;background-color:{{$objective->target_obj_skew_indicator}};">
+                        aria-valuemin="0" aria-valuemax="{{$objective->target_to_be_ach_percentage}}" style="width:{{$objective->target_ach_percentage}}%;background-color:{{$objective->target_obj_skew_indicator}};">
                         <label class="progress-text">{{$objective->target_ach_percentage}}% </label>
                     </div>
+                    <div class="progress-text" style="display:inline-block; float:right;" >{{$objective->target_to_be_ach_percentage}}%</div>
                 </div>
+                
                 <div class="row comment" >
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div style="height:15px;width:15px;padding:5px;display:inline-block;background-color:{{$objective->target_obj_skew_indicator}};"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Achieved target [{{$objective->target_ach_value}}&nbsp;{{$objective->target_value_units}} ]</label>&nbsp;
-                    
-                    <div style="height:15px;width:15px;padding:5px;display:inline-block;background-color:#f5f5f5"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Target [{{$objective->target_to_be_ach_val}}&nbsp;{{$objective->target_value_units}} ]</label>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 legend">
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:{{$objective->target_obj_skew_indicator}};"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Achieved {{$objective->target_ach_value}}&nbsp;{{$objective->target_value_units}} </label>&nbsp;
+                    <div class="clearfix visible-xs"></div>
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#f5f5f5"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Target {{$objective->target_value}}&nbsp;{{$objective->target_value_units}} </label>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
+            <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
              <h2 class="text-right" style="margin-top:15px;">{{$objective->obj_points}}</h2>
             </div>
         </div>
@@ -267,27 +291,39 @@ My Objectives
 <?php }elseif($objective->objective_type==='RANGE'){ ?>
 
 <!--Card-->
-<div class="card">
+<div class="card" title="{{$objective->obj_text}}">
     <!--Card content-->
     <div class="card-block">
         <!--Title-->
        <div class="row">
-                 <div class="col-lg-8  col-md-8  col-sm-8 col-xs-9">
+                 <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
                     <h4 class="card-title">{{$objective->obj_text}}</h4>
                  </div>
-                 <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
-                     <h5 class="card-title text-right">Earned points</h5>
+                 <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
+                     <h5 class="card-title text-right">Points</h5>
                  </div>
        </div>
         <!--Text-->
         
         <div class="row">
-            <div class="col-lg-8  col-md-8  col-sm-8 col-xs-9">
+            <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
                   
                 <div id="{{'chart'.$objective->id}}" class="chart" style="margin-left:-10px"></div>
-                
+                <div class="row comment" >
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#d9534f"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%  </label>&nbsp;
+                    <div class="clearfix visible-xs"></div>
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:orange"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">good [{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]% </label>&nbsp;
+                    <div class="clearfix visible-xs"></div>
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:lightgreen"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">very good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]% </label>
+                    
+                    </div>
+                </div>
             </div>
-            <div class="col-lg-4  col-md-4  col-sm-4 col-xs-3">
+            <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
              <h2 class="text-right" style="margin-top:15px;">{{$objective->obj_points}}</h2>
             </div>
         </div>

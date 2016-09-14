@@ -11,6 +11,7 @@ use App\User;
 use App\Objective;
 use App\Objectiveprogress;
 use App\Objectiveleaderboard;
+use App\Badges;
 use DB;
 use Response;
 use Illuminate\Support\Facades\Redirect;
@@ -36,7 +37,8 @@ class DashboardController extends Controller
                                                 ->select('created_at')
                                                 ->first();
             $user=User::find(Session::get('userId'));
-            $dataToView = array('objective_data','client_last_updated','user');
+            $client_data=Clients::find(Session::get('clientId'));
+            $dataToView = array('objective_data','client_last_updated','user','client_data');
             return view('/dashboard/index',compact($dataToView));
         }else{
             return Redirect::action('VaultController@logout');
@@ -77,7 +79,10 @@ class DashboardController extends Controller
             $destinationPath = 'assets/img/logo/';
             $fileExtension = '.'.$file->getClientOriginalExtension();
             $filename = $newclient->id.$fileExtension;
-            $result = Input::file('uploadextract')->move(public_path($destinationPath), $filename);
+            $temp=Clients::find($newclient->id);
+            $temp->client_logo_ext=$fileExtension;
+            $temp->save();
+            $result = Input::file('uploadextract')->move($destinationPath, $filename);
 		
             return Response::json(array('status'=>'success'));
         }
@@ -107,14 +112,16 @@ class DashboardController extends Controller
     
     public function profile(){
         if(Auth::check()){
-            $userdata=User::where('mobilenumber','=',Session::get('mobileNumber'))->get();
+            $userdata=User::where('mobilenumber','=',Session::get('mobileNumber'))->where('client_id','=',Session::get('clientId'))->get();
             $userdata=$userdata[0];
+            $badges_data= Badges::where('mobile_no','=',Session::get('mobileNumber'))->where('client_id','=',Session::get('clientId'))->get();
             $client_last_updated=  Uploadstatus::where('client_id','=',Session::get('clientId'))
                                                 ->orderBy('id','desc')
                                                 ->select('created_at')
                                                 ->first();
              $user=User::find(Session::get('userId'));
-            $dataToView = array('userdata','client_last_updated','user');
+             $client_data=Clients::find(Session::get('clientId'));
+            $dataToView = array('userdata','client_last_updated','user','badges_data','client_data');
             return view('/dashboard/profile',compact($dataToView));
         }else{
             return Redirect::action('VaultController@logout');
@@ -133,8 +140,10 @@ class DashboardController extends Controller
                                                 ->orderBy('id','desc')
                                                 ->select('created_at')
                                                 ->first();
-             $user=User::find(Session::get('userId'));
-            $dataToView = array('objleaderboarddata','client_last_updated','user');
+    
+            $user=User::find(Session::get('userId'));
+            $client_data=Clients::find(Session::get('clientId'));
+            $dataToView = array('objleaderboarddata','client_last_updated','user','client_data');
             return View ('/dashboard/leaderboard',compact($dataToView));
         }else{
             return Redirect::action('VaultController@logout');

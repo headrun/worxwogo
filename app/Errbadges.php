@@ -3,14 +3,14 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Session;
 class Errbadges extends Model
 {
     protected $table='err_badges';
     //
     
     public static function insertbadgeserrlist($data,$data2){
-        
+        $newbadge=new Errbadges();
         $newbadge->upload_id=$data2['upload_id'];
         $newbadge->user_name=$data['user_name'];
         $newbadge->mobile_no=$data['user_mobile_no'];
