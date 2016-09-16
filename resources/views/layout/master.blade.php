@@ -29,8 +29,8 @@
                 }
                 
                 .progress{
-                    margin-left:25px;
-                    width:84%;
+                    margin-left:45px;
+                    width:60%;
                     height:30px;
                 }
                 .progress-text{
@@ -97,8 +97,8 @@
                 }
                 
                 .progress{
-                    margin-left:45px;
-                    width:84%;
+                    margin-left:80px;
+                    width:60%;
                     height:30px;
                 }
                 .progress-text{
@@ -154,15 +154,17 @@
                 }
                 
                 .progress{
-                    margin-left:50px;
-                    width:84%;
+                    margin-left:130px;
+                    width:55%;
                     height:30px;
                 }
                 .progress-text{
                     margin-top:5px;
                     
                 }
-                
+                .legend2{
+                    margin-left:80px;
+                }
                 .comment{
                     margin-left:40px;
                 }
@@ -198,12 +200,15 @@
                 font-size: 1vw;
                 }
                 
+                .legend2{
+                    margin-left:110px;
+                }
                 .comment{
                     margin-left:50px;
                 }
                 .progress{
-                    margin-left:60px;
-                    width:84%;
+                    margin-left:165px;
+                    width:60%;
                     height:30px;
                 }
                 .progress-text{
@@ -305,8 +310,8 @@
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
-                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
                     <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
                 </div>
@@ -330,8 +335,10 @@
                 </div>
             </div>
         </nav>
+<div class="container-fluid">
 <div class="row leaderboard-toolbar">
-    <h4 class="text-center ">Sales Activity</h4><br>
+    <h4 class="text-center ">{{$client_data['program_name']}}</h4><br>
+</div>
 </div>
         @yield('content')
         

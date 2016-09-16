@@ -120,7 +120,8 @@ class AdminController extends Controller
                                               'seg_obj_start_value','seg_obj_end_value','seg_obj_start_per','seg_obj_end_per',
                                               'seg_obj_value_units','seg_obj_good_start_per','seg_obj_good_end_per',
                                               'seg_obj_bad_start_per','seg_obj_bad_end_per','seg_obj_vgood_start_per',
-                                              'seg_obj_vgood_end_per','seg_obj_ach_value','qty_highest_ach_no',
+                                              'seg_obj_vgood_end_per','seg_obj_ach_value','seg_obj_target_value',
+                                              'seg_obj_target_value_units','seg_obj_txt','qty_highest_ach_no',
                                               'qty_current_ach_no','qty_value_units','objective_points',
                                               'created_ts','status','client_name'];
             $columnnames['badgesextract']=['user_name','user_mobile_no','user_employee_code','user_badge_name',

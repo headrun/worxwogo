@@ -102,7 +102,7 @@
         ['', {{$objective->seg_bad_end_percentage}}, 
             <?php echo $objective->seg_good_end_percentage-$objective->seg_bad_end_percentage;?>, 
             <?php echo $objective->seg_vgood_end_percentage-$objective->seg_good_end_percentage;?>,
-           '','12345',
+           '',<?php if($objective->seg_obj_achvd_value > 100){ echo "'".$objective->seg_obj_achvd_value."%'";}else{echo '';}?>,
         ]
         ]);
 
@@ -112,13 +112,14 @@
           tooltip: {isHtml: true},
           isStacked: 'percent',
           height:90,
-          chartArea: {width: '50%'},
+          chartArea: {width: '55%'},
           annotations: {
           alwaysOutside: true,
           textStyle: {
-            fontSize: 12,
+            fontSize: 10,
             auraColor: 'none',
-            color: '#555'
+            color: '#555',
+           
           },
           boxStyle: {
             stroke: '#ccc',
@@ -131,18 +132,14 @@
             }
           }
         },
-          legend: {position: 'none', maxLines: 3},
+          legend: {position: 'none', maxLines: 1},
           colors:['#d9534f','orange','lightgreen'],
           hAxis: {
             minValue: 0,
-            <?php if(($objective->seg_obj_achvd_value >= $objective->seg_good_end_percentage) && ($objective->seg_obj_achvd_value <= $objective->seg_vgood_end_percentage)){ ?>
-            
-            ticks: [0,/*{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},*/{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_vgood_end_percentage/100}}, 1*/]
-            
-            <?php }else if(($objective->seg_obj_achvd_value >= $objective->seg_bad_end_percentage) && ($objective->seg_obj_achvd_value <= $objective->seg_good_end_percentage)){?>
-            ticks: [0,/*{{$objective->seg_bad_end_percentage/100}},*/{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1*/]
-            <?php }else{ ?>
-            ticks: [0,{{$objective->seg_obj_achvd_value/100}},/*{{$objective->seg_bad_end_percentage/100}},{{$objective->seg_good_end_percentage/100}},{{$objective->seg_vgood_end_percentage/100}}, 1*/]
+            <?php if(($objective->seg_obj_achvd_value <= 100)){ ?>
+            ticks: [0,{{$objective->seg_obj_achvd_value/100}},]
+            <?php }else if( ($objective->seg_obj_achvd_value > 100)){ ?>
+            ticks: [0,1,]
             <?php } ?>
           }
         };
@@ -269,7 +266,7 @@ My Objectives
                 </div>
                 
                 <div class="row comment" >
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 legend">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 legend2">
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:{{$objective->target_obj_skew_indicator}};"></div>
                     <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Achieved {{$objective->target_ach_value}}&nbsp;{{$objective->target_value_units}} </label>&nbsp;
                     <div class="clearfix visible-xs"></div>
@@ -310,7 +307,7 @@ My Objectives
                   
                 <div id="{{'chart'.$objective->id}}" class="chart" style="margin-left:-10px"></div>
                 <div class="row comment" >
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left legend2">
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#d9534f"></div>
                     <label style="font-weight:normal;display:inline-block;font-size:smaller; ">bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%  </label>&nbsp;
                     <div class="clearfix visible-xs"></div>
@@ -318,8 +315,9 @@ My Objectives
                     <label style="font-weight:normal;display:inline-block;font-size:smaller;">good [{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]% </label>&nbsp;
                     <div class="clearfix visible-xs"></div>
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:lightgreen"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">very good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]% </label>
-                    
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">very good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%  </label>
+                    <div class="clearfix visible-xs"></div>
+                    <label style="font-weight:normal;font-size:smaller;display:inline-block;">[{{$objective->seg_obj_achvd_value}}% of {{$objective->seg_obj_target_value}} {{$objective->seg_obj_target_value_units}} {{$objective->seg_obj_txt}}] </label>
                     </div>
                 </div>
             </div>

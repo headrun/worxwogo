@@ -73,6 +73,7 @@ class DashboardController extends Controller
             
             
             $data['client_name']=$inputs['company_name'];
+            $data['program_name']=$inputs['program_name'];
             $data['status']=$inputs['status'];
             $newclient=  Clients::addnewClient($data);
             
@@ -102,6 +103,7 @@ class DashboardController extends Controller
             $inputs = $request->all();
             $clientdata=Clients::find($inputs['company_id']);
             $clientdata->client_name=$inputs['company_name'];
+            $clientdata->program_name=$inputs['program_name'];
             $clientdata->status=$inputs['status'];
             $clientdata->save();
             return Response::json(array('status'=>'success'));

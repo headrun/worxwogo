@@ -43,6 +43,11 @@ class Errobjectiveprogresslist extends Model
         $newobjectiveprogress->	seg_vgood_start_percentage=$data['seg_obj_vgood_start_per'];
         $newobjectiveprogress->	seg_vgood_end_percentage=$data['seg_obj_vgood_end_per'];
         $newobjectiveprogress->	seg_obj_achvd_value=$data['seg_obj_ach_value'];
+        
+        $newobjectiveprogress->	seg_obj_target_value=$data['seg_obj_target_value'];
+        $newobjectiveprogress->	seg_obj_target_value_units=$data['seg_obj_target_value_units'];
+        $newobjectiveprogress->	seg_obj_txt=$data['seg_obj_txt'];
+        
         $newobjectiveprogress->	qty_highest_ach_no=$data['qty_highest_ach_no'];
         $newobjectiveprogress->	qty_current_ach_no=$data['qty_current_ach_no'];
         $newobjectiveprogress->	qty_value_units=$data['qty_value_units'];

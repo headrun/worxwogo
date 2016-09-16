@@ -9,7 +9,7 @@
 
 @section('libraryJS')
 <script>
-function editclient(id,name,status){
+function editclient(id,name,status,programname){
        $('.modal-dialog').removeClass('modal-sm');
        $('.modal-dialog').addClass('modal-md');
        $('.modal-title').html("Edit Client Data");
@@ -18,7 +18,7 @@ function editclient(id,name,status){
                              "<select class='form-control status' style='padding:5px;width:50%;display:inline-block' value='"+status+"'>"+
                              " <option value='A'>Active</option>"+
                              "<option value='N'>Inactive</option>"+
-                             "</select>");
+                             "</select><br><label style='width:100%'>Program Name</label><input type='text' class='form-control programName' style='width:100%;display:inline-block;padding:5px;' value='"+programname+"'/>");
        $('.status').val(status);
        $('.modal-footer').html("<center><button class='btn btn-primary edit'>Save</button><button class='btn' data-dismiss='modal'>Cancel</button></center>");
        $('#delete').modal('show');
@@ -27,7 +27,7 @@ function editclient(id,name,status){
             $.ajax({
 			type: "POST",
                         url: "{{URL::to('/quick/editCompanyById')}}",
-                        data: {'company_id':id,'company_name':$('.clientname').val(),'status':$('.status').val()},
+                        data: {'company_id':id,'company_name':$('.clientname').val(),'status':$('.status').val(),'program_name':$('.programName').val()},
 			dataType: 'json',
 			success: function(response){
                             //console.log(response);
@@ -82,6 +82,7 @@ function editclient(id,name,status){
         });
     });
     formData.append('company_name', $('#companyName').val());
+    formData.append('program_name', $('#programName').val());
     formData.append('status', $('#formstatus').val());
     var params = $(obj).serializeArray();
     $.each(params, function (i, val) {
@@ -159,6 +160,13 @@ function editclient(id,name,status){
                         <input type="file" name="uploadextract" id="uploadextract" class="form-control" required>
                     </div>
                 </div>
+                <div class="uk-width-medium-1-3">
+                    <div class="parsley-row">
+                        <label for="programName">Program Name</label>
+                        <input type="text" name="programName"  id="programName" class="form-control input-sm md-input" required/>
+                    </div>
+                </div>
+                <br clear="all">
                 <div class="uk-width-medium-1-1">
                     <div class="parsley-row form-group">
                         <button type="submit" id="addclient" class="md-btn md-btn-primary">Add New Company</button>
@@ -175,6 +183,7 @@ function editclient(id,name,status){
                 <thead>
                     <tr>
                     <th>Name of the Company</th>
+                    <th>Program Name</th>
                     <th>No of Users</th>
                     <th>Status</th>
                     <th>Action</th>
@@ -182,9 +191,11 @@ function editclient(id,name,status){
                 </thead>
             <tbody>
             <?php for($i=0;$i<count($clients_data);$i++){ ?>
-            <tr><td>{{$clients_data[$i]['client_name']}}</td><td>{{$clients_data[$i]['totalusers']}}</td>
+            <tr><td>{{$clients_data[$i]['client_name']}}</td>
+                <td>{{$clients_data[$i]['program_name']}}</td>
+                <td>{{$clients_data[$i]['totalusers']}}</td>
                 <td><?php if($clients_data[$i]['status']=='A'){echo" Active";}else if($clients_data[$i]['status']=='N'){echo "Inactive";} ?></td>
-                <td><button class="btn btn-warning btn-xs" onclick="editclient({{$clients_data[$i]['id']}},'{{$clients_data[$i]['client_name']}}','{{$clients_data[$i]['status']}}')">
+                <td><button class="btn btn-warning btn-xs" onclick="editclient({{$clients_data[$i]['id']}},'{{$clients_data[$i]['client_name']}}','{{$clients_data[$i]['status']}}','{{$clients_data[$i]['program_name']}}')">
                     <i class="fa fa-pencil" aria-hidden="true">&nbsp;</i> Edit</button>
                     <?php if($clients_data[$i]['totalusers']==0){ ?>
                     <button class="btn btn-danger btn-xs" onclick="deletecompany({{$clients_data[$i]['id']}})">

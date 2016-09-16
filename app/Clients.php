@@ -14,6 +14,7 @@ class Clients extends Model
    static public function addnewClient($data){
        $newclient=new Clients();
        $newclient->client_name=$data['client_name'];
+       $newclient->program_name=$data['program_name'];
        $newclient->status=$data['status'];
        $newclient->save();
        return $newclient;

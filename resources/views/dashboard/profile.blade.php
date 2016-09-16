@@ -298,7 +298,7 @@
             </div>
         </nav>
 <div class="row leaderboard-toolbar">
-    <h4 class="text-center ">Sales Activity</h4><br>
+    <h4 class="text-center ">{{$client_data['program_name']}}</h4><br>
 </div>
 
         <!-- header -->
@@ -336,7 +336,7 @@
                     </div>
                     <div class="tab-pane" id="2b">
                         <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;"> 
-                            <thead style="background-color:#4472C4;color:white;s">
+                            <thead style="background-color:#6F6F6F;color:white;">
                                 <tr>
                                 <th>Sr</th>
                                 <th>Activity</th>
@@ -345,106 +345,106 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="background-color:#D9E2F3;">
+                                <tr >
                                     <td>1</td>
                                     <td>MSP (Value)</td>
                                     <td>Every % achievement of MSP (in Rs. Lacs) against the monthly target</td>
                                     <td class="text-right">20</td>
                                 </tr>
-                                <tr>
+                                <tr style="background-color:lightgrey;">
                                     <td rowspan="2">2</td>
                                     <td rowspan="2">Category Mix – Truck (Qty)</td>
                                     <td>If the percentage target achievement for the truck category is between 70-89%</td>
                                     <td class="text-right">200</td>
                                 </tr>
-                                    <tr>
+                                    <tr style="background-color:lightgrey;">
                                         <td>If the percentage target achievement for the truck category is greater than 90%</td>
                                         <td class="text-right">500</td>
                                     </tr>
-                                <tr style="background-color:#D9E2F3;">
+                                <tr >
                                     <td rowspan="2">3</td>
                                     <td rowspan="2">Category Mix Non–Truck (Qty)</td>
                                     <td>If the percentage target achievement for the non-truck category is between 50-69%</td>
                                     <td class="text-right">200</td>
                                 </tr>
-                                    <tr style="background-color:#D9E2F3;">
+                                    <tr>
                                         <td>If the percentage target achievement for the non-truck category is greater than 70%</td>
                                         <td class="text-right">500</td>
                                     </tr>
-                                <tr>
+                                <tr style="background-color:lightgrey;">
                                     <td rowspan="2">4</td>
                                     <td rowspan="2">Category Mix – 2/3 Wheelers (Qty)</td>
                                     <td>If the percentage target achievement for the 2/3 wheeler category is between 70-89%</td>
                                     <td class="text-right">200</td>
                                 </tr>
-                                    <tr>
+                                    <tr style="background-color:lightgrey;">
                                         <td>If the percentage target achievement for the 2/3 wheeler category is greater than 90%</td>
                                         <td class="text-right">500</td>
                                     </tr>
-                                <tr style="background-color:#D9E2F3;">
+                                <tr>
                                     <td>5</td>
                                     <td>Petro/OE</td>
                                     <td>For every Petro or OE dealer appointed</td>
                                     <td class="text-right">1000</td>
                                 </tr>
-                                <tr>
+                                <tr style="background-color:lightgrey;">
                                     <td>6</td>
                                     <td>New/PTP/Steel Wheel</td>
                                     <td>For every New, PTP or Steel Wheel dealer appointed</td>
                                     <td class="text-right">2000</td>
                                 </tr>
-                                <tr style="background-color:#D9E2F3;">
+                                <tr>
                                     <td>7</td>
                                     <td>SAS</td>
                                     <td>Every % increment in SAS against the year beginning value</td>
                                     <td class="text-right">100</td>
                                 </tr>
-                                <tr>
+                                <tr style="background-color:lightgrey;">
                                     <td rowspan="2">8</td>
                                     <td rowspan="2">PJP</td>
                                     <td>If PJP adherence on a daily basis is between 80-89%</td>
                                     <td class="text-right">50</td>
                                 </tr>
-                                    <tr>
+                                    <tr style="background-color:lightgrey;">
                                         <td>If PJP adherence on a daily basis is between 90-100%</td>
                                         <td class="text-right">100</td>
                                     </tr>
                         </table>
                     </div>
                     <div class="tab-pane" id="3b">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-6 col-sm-8 col-xs-10 center-block" style=" margin-top: 10px;; float: none !important;">
-            
-                            {!! Form::open(array('url' => 'Userupdate', 'id'=>"updateprofileForm", "class"=>"", 'method' => 'post')) !!}
-                            {!! csrf_field() !!}
-                
-                
-                           
-                            <label>Mobile-Number:</label>{{$userdata->mobilenumber}}
-                            <!--<input type="text" class="form-control" placeholder="Mobile Number" name="mobileNumber" required 
-                            maxlength="10" minlength="10"  onkeypress='return event.charCode >= 48 && event.charCode <= 57'
-                            value="{{$userdata->mobilenumber}}"/>
-                            -->
+                        <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;">
+                            <thead>
+                                <tr style="background-color:#6F6F6F;color:white;">
+                                    <th>sr</th>
+                                    <th>Particular</th>
+                                    <th>Detail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="">
+                                    <td>1</td>
+                                    <td>Mobile-Number</td>
+                                    <td>{{$userdata->mobilenumber}}</td>
+                                </tr>
+                                <tr style="background-color:lightgrey;">
+                                    <td>2</td>
+                                    <td>Job-Role</td>
+                                    <td>{{$userdata->designation}}</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Territory</td>
+                                    <td>{{$userdata->territory}}</td>
+                                </tr>
+                                <tr style="background-color:lightgrey;">
+                                    <td>4</td>
+                                    <td>Region</td>
+                                    <td>{{$userdata->region}}</td>
+                                </tr>
+                            </tbody>
+                        </table> 
+                          
                             
-                            <br>
-                
-                            <label>Job-Role:</label>{{$userdata->designation}}
-                            <!--<input type="text" value="{{$userdata->designation}}" class="form-control" required/>-->
-                            <br>
-                
-                            <label>Territory:</label>{{$userdata->territory}}
-                            <!--<input type="text" value="{{$userdata->location_name}}" class="form-control" required>-->
-                            <br>
-                            
-                            <label>Region:</label>{{$userdata->region}}
-                            <!--<input type="text" value="{{$userdata->branch}}" class="form-control" required>-->
-                            <br>
-                
-                            
-                            <!--<button  type="submit" class=" btn btn-warning form-control">Update Profile</button>-->
-                            {!! Form::close() !!}
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

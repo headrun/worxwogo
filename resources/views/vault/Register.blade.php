@@ -20,7 +20,32 @@
   ga('send', 'pageview');
 
         </script>
-
+        <style>
+            @media(max-width:767px){
+                .clientlogo{
+                    height:75px;
+                    width:180px;
+                }
+            }
+            @media(min-width:768px){
+                .clientlogo{
+                    height:75px;
+                    width:200px;
+                }
+            }
+            @media(min-width:992px){
+                .clientlogo{
+                    height:75px;
+                    width:210px;
+                }
+            }
+            @media(min-width:1200px){
+                .clientlogo{
+                    height:76px;
+                    width:225px;
+                }
+            }
+        </style>
         
         
     </head>
@@ -30,7 +55,7 @@
             <div class=" col-lg-4 col-md-4  col-sm-8 col-xs-8 login-box center-block text-center" 
                 style=" margin-top: 10%; float: none !important;" >
                 <div>
-                    <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" style="height:76px; width:226px;"></img>
+                    <img class="clientlogo" src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" ></img>
                 </div>
             <br>
                 
