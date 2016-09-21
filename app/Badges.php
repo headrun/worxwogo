@@ -4,15 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Session;
-
+use SoftDeletes;
 class Badges extends Model
 {
+    
+    protected $dates = ['deleted_at'];
     protected $table='badges';
-    protected $fillable = array('client_id','mobile_no');
+    
     //
     
     public static function insertBadges($data,$data2){
-        $newbadge=Badges::firstOrNew(['client_id'=>$data2['client_id'],'mobile_no'=>$data['user_mobile_no']]);
+        $newbadge= new Badges();
         $newbadge->upload_id=$data2['upload_id'];
         $newbadge->user_name=$data['user_name'];
         $newbadge->mobile_no=$data['user_mobile_no'];

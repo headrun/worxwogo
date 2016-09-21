@@ -253,6 +253,7 @@
 
   ga('create', 'UA-71192393-4', 'auto');
   ga('send', 'pageview');
+  ga('set', 'userId', {{Session::get('empId')}});
 
         </script>
 
@@ -314,7 +315,7 @@
                     <li class="active">
                         <a  class="link" href="#1b" data-toggle="tab"><h5>Badges</h5></a>
                     </li>
-                    <li><a class="link" href="#2b" data-toggle="tab"><h5>Points</h5></a>
+                    <li><a class="link" href="#2b" data-toggle="tab"><h5>Game Card</h5></a>
                     </li>
                     <li><a class="link" href="#3b" data-toggle="tab"><h5>Profile</h5></a>
                     </li>
@@ -329,12 +330,15 @@
                             @foreach($badges_data as $badge)
                             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4 text-center">
                                 <img class="badges" src="{{url()}}/assets/img/Badges/{{$badge->badge_img_name}}" style="height:150px;width:150px;"/>
+                                <br>
+                                <h5 class="text-center" style="font-weight:lighter;">{{$badge->badge_name}}</h5>
                             </div>
                             @endforeach
                         </div>
                         @endif
                     </div>
                     <div class="tab-pane" id="2b">
+                        <h5>How to Earn Points ?</h5>
                         <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;"> 
                             <thead style="background-color:#6F6F6F;color:white;">
                                 <tr>
@@ -409,7 +413,28 @@
                                         <td>If PJP adherence on a daily basis is between 90-100%</td>
                                         <td class="text-right">100</td>
                                     </tr>
+                                <tr>
+                                    <td colspan="3"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">MSP, SAS & Dealer appointments – No Cap</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        * SAS calculation basis: % = (End of week SAS – Beginning of week SAS)/(Base SAS as on April 1, 2016)
+                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                   For points to be awarded, current value has to be greater than base value
+                            
+                                    </td>
+                                </tr>
                         </table>
+                        <br>
+                        
+                        
                     </div>
                     <div class="tab-pane" id="3b">
                         <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;">

@@ -22,6 +22,7 @@ class vaultController extends Controller
             Auth::loginUsingId($user_data['id']);
             Session::put('userId', $user_data->id);
             Session::put('clientId', $user_data->client_id);
+            Session::put('empId', $user_data->emp_code);
             Session::put('name', $user_data->name);
             Session::put('points', $user_data->user_points);
             Session::put('mobileNumber', $user_data->mobilenumber);
@@ -65,7 +66,7 @@ class vaultController extends Controller
                 return Redirect::action('DashboardController@index');
                 
             }else{
-                  return " use xg/companyname";
+                  return "Please use xg/companyname";
             }
     }
     

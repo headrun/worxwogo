@@ -288,6 +288,7 @@
 
   ga('create', 'UA-71192393-4', 'auto');
   ga('send', 'pageview');
+  ga('set', 'userId', {{Session::get('empId')}});
 
         </script>
 

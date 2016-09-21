@@ -94,9 +94,9 @@
 
         // Create the data table.
         var data = google.visualization.arrayToDataTable([
-        ['Genre','bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%',
-            'good[{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]%',
-            'vgood[{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%', {type: 'string', role: 'tooltip'},
+        ['Genre','Bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%',
+            'Good [{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]%',
+            'Very Good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%', {type: 'string', role: 'tooltip'},
              {type: 'string', role: 'annotation'},
         ],
         ['', {{$objective->seg_bad_end_percentage}}, 
@@ -109,7 +109,7 @@
         // Set chart options
         
         var options = {
-          tooltip: {isHtml: true},
+          tooltip: {isHtml: false},
           isStacked: 'percent',
           height:90,
           chartArea: {width: '55%'},
@@ -136,8 +136,10 @@
           colors:['#d9534f','orange','lightgreen'],
           hAxis: {
             minValue: 0,
-            <?php if(($objective->seg_obj_achvd_value <= 100)){ ?>
+            <?php if(($objective->seg_obj_achvd_value <= 100)&&($objective->seg_obj_achvd_value >= 10) ){ ?>
             ticks: [0,{{$objective->seg_obj_achvd_value/100}},]
+            <?php }else if( ($objective->seg_obj_achvd_value < 10)){ ?>
+            ticks: [{{$objective->seg_obj_achvd_value/100}},]
             <?php }else if( ($objective->seg_obj_achvd_value > 100)){ ?>
             ticks: [0,1,]
             <?php } ?>
@@ -221,8 +223,8 @@ My Objectives
                 <!--Text-->
                 <div class="row">
                     <div class="col-lg-8  col-md-8  col-sm-8 col-xs-8">
-                        <label class="text-center milestone" style=" font-size:12px;  margin-left: 15px; border:solid 2px; border-radius:30%; padding:10px;color:#00BBD3;">MILESTONE <br><span style="font-weight:bolder;font-size:15px;"> {{$objective->qty_current_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span></label>
-                        <span style="font-weight:bolder;font-size:15px;">{{$objective->qty_highest_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span>
+                        <label class="text-center milestone" style=" font-size:12px;  margin-left: 15px; border:solid 2px; border-radius:30%; padding:10px;color:#00BBD3;">MILESTONE <br><span style="font-weight:bolder;font-size:15px;"> {{$objective->qty_highest_ach_no}} &nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span></label>
+                        <span style="font-weight:bolder;font-size:15px;">{{$objective->qty_current_ach_no}}&nbsp;<?php if($objective->qty_value_units=='Percentage'){echo '%';}else{echo $objective->qty_value_units;} ?></span>
                         <br>
                     </div>
                     <div class="col-lg-4  col-md-4  col-sm-4 col-xs-4">
@@ -268,10 +270,15 @@ My Objectives
                 <div class="row comment" >
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 legend2">
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:{{$objective->target_obj_skew_indicator}};"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Achieved {{$objective->target_ach_value}}&nbsp;{{$objective->target_value_units}} </label>&nbsp;
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Achieved: {{$objective->target_ach_value}}&nbsp;{{$objective->target_value_units}} </label>&nbsp;
+                    <div class="clearfix visible-xs"></div>
+                    <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#666666"></div>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Target: {{$objective->target_value}}&nbsp;{{$objective->target_value_units}} </label>
+                    <?php if($objective->target_to_be_ach_val!=NULL && $objective->target_value_units!=NULL ){?>
                     <div class="clearfix visible-xs"></div>
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#f5f5f5"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Target {{$objective->target_value}}&nbsp;{{$objective->target_value_units}} </label>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">To be Achieved: {{$objective->target_to_be_ach_val}}&nbsp;{{$objective->target_value_units}} </label>
+                    <?php }?>
                     </div>
                 </div>
             </div>
@@ -309,15 +316,17 @@ My Objectives
                 <div class="row comment" >
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left legend2">
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:#d9534f"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%  </label>&nbsp;
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller; ">Bad [{{(int)$objective->seg_bad_start_percentage}}-{{(int)$objective->seg_bad_end_percentage}}]%  </label>&nbsp;
                     <div class="clearfix visible-xs"></div>
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:orange"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">good [{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]% </label>&nbsp;
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Good [{{(int)$objective->seg_good_start_percentage}}-{{(int)$objective->seg_good_end_percentage}}]% </label>&nbsp;
                     <div class="clearfix visible-xs"></div>
                     <div style="height:10px;width:10px;padding:5px;display:inline-block;background-color:lightgreen"></div>
-                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">very good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%  </label>
+                    <label style="font-weight:normal;display:inline-block;font-size:smaller;">Very Good [{{(int)$objective->seg_vgood_start_percentage}}-{{(int)$objective->seg_vgood_end_percentage}}]%  </label>
+                    <?php if($objective->seg_obj_achvd_value!=NULL && $objective->seg_obj_achvd_value!=0 && $objective->seg_obj_target_value!=NULL &&$objective->seg_obj_target_value!=0 && $objective->seg_obj_target_value_units!=NULL && $objective->seg_obj_target_value_units!='NULL' && $objective->seg_obj_txt!=NULL && $objective->seg_obj_txt!='NULL'){?>
                     <div class="clearfix visible-xs"></div>
-                    <label style="font-weight:normal;font-size:smaller;display:inline-block;">[{{$objective->seg_obj_achvd_value}}% of {{$objective->seg_obj_target_value}} {{$objective->seg_obj_target_value_units}} {{$objective->seg_obj_txt}}] </label>
+                    <label style="font-weight:normal;font-size:smaller;display:inline-block;">[{{$objective->seg_obj_achvd_value}}% of {{$objective->seg_obj_target_value }} {{$objective->seg_obj_target_value_units.'.'}} {{$objective->seg_obj_txt}}] </label>
+                    <?php } ?>
                     </div>
                 </div>
             </div>

@@ -55,7 +55,7 @@ class DashboardController extends Controller
             /* SELECT DISTINCT (`client_id`) as `s`, (SELECT COUNT(`s`) FROM `users` WHERE `client_id`= `s`) as `count` FROM `users` */
             
             for($i=0;$i<count($clients_data);$i++){
-                $clients_data[$i]['totalusers']= User::where('client_id','=',$clients_data[$i]['id'])->count();
+                $clients_data[$i]['totalusers']= User::where('client_id','=',$clients_data[$i]['id'])->where('status','=','A')->count();
             }
             
             $dataToView = array('currentPage','mainMenu',
@@ -114,14 +114,16 @@ class DashboardController extends Controller
     
     public function profile(){
         if(Auth::check()){
-            $userdata=User::where('mobilenumber','=',Session::get('mobileNumber'))->where('client_id','=',Session::get('clientId'))->get();
-            $userdata=$userdata[0];
-            $badges_data= Badges::where('mobile_no','=',Session::get('mobileNumber'))->where('client_id','=',Session::get('clientId'))->get();
+            $userdata=User::find(Session::get('userId'));
+            $user=$userdata;
+            $badges_data= Badges::where('mobile_no','=',Session::get('mobileNumber'))
+                                  ->where('client_id','=',Session::get('clientId'))
+                                  ->where('status','=','A')
+                                  ->get();
             $client_last_updated=  Uploadstatus::where('client_id','=',Session::get('clientId'))
                                                 ->orderBy('id','desc')
                                                 ->select('created_at')
                                                 ->first();
-             $user=User::find(Session::get('userId'));
              $client_data=Clients::find(Session::get('clientId'));
             $dataToView = array('userdata','client_last_updated','user','badges_data','client_data');
             return view('/dashboard/profile',compact($dataToView));
@@ -135,7 +137,7 @@ class DashboardController extends Controller
             $objleaderboarddata=Objectiveleaderboard::getobjleaddata();
             for($i=0;$i<count($objleaderboarddata);$i++){
                 
-                $objleaderboarddata[$i]['user']=User::where('mobilenumber','=',$objleaderboarddata[$i]['mobile_no'])->get();
+                $objleaderboarddata[$i]['user']=User::where('mobilenumber','=',$objleaderboarddata[$i]['mobile_no'])->where('status','=','A')->get();
               
             }
             $client_last_updated=  Uploadstatus::where('client_id','=',Session::get('clientId'))
@@ -181,7 +183,7 @@ class DashboardController extends Controller
     public function getobjlist(Request $request){
         if(Auth::check() && (Session::get('userType')=='ADMIN')){
             $inputs = $request->all();
-            $objlist=Objective::where('client_id','=',$inputs['company_id'])->get();
+            $objlist=Objective::where('client_id','=',$inputs['company_id'])->where('status','=','A')->get();
             return Response::json(array('status'=>'success','objectivelist'=>$objlist));
         }
     }

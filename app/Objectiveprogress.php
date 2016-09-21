@@ -21,7 +21,7 @@ class Objectiveprogress extends Model
    
     
     static public function insertobjectiveprogress($data,$data2){
-        $newobjectiveprogress= Objectiveprogress::firstOrNew(['client_id'=>$data2['client_id'],'obj_no'=>$data['objective_no'],'mobile_no'=>$data['user_mobile_no']]);
+        $newobjectiveprogress= new Objectiveprogress();
         $newobjectiveprogress->client_id=$data2['client_id'];
         $newobjectiveprogress->upload_id=$data2['upload_id'];
         $newobjectiveprogress->user_name=$data['user_name'];
@@ -93,6 +93,7 @@ class Objectiveprogress extends Model
         return Objectiveprogress::
                 where('mobile_no','=',Session::get('mobileNumber'))
                 ->where('client_id','=',Session::get('clientId'))
+                ->where('status','=','A')
                 ->get();
     }
 }

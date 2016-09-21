@@ -29,7 +29,7 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password','client_id','mobilenumber'];
+    //protected $fillable = ['name', 'email', 'password','client_id','mobilenumber'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -40,7 +40,7 @@ class User extends Model implements AuthenticatableContract,
     
     
     static public function insertUsers($data,$data2){
-        $newuser= User::firstOrNew(['mobilenumber'=>$data['user_mobile'],'emp_code'=>$data['user_emp_code'],'client_id'=>$data2['client_id']]);
+        $newuser= new User();
         $newuser->name=$data['user_name'];
         $newuser->client_id=$data2['client_id'];
         $newuser->mobilenumber=$data['user_mobile'];

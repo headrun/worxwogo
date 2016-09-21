@@ -146,6 +146,7 @@ class AdminController extends Controller
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                    Objective::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['objectivelist']);
@@ -197,6 +198,7 @@ class AdminController extends Controller
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                    User::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 
@@ -251,6 +253,7 @@ class AdminController extends Controller
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                    Objectiveprogress::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['objectiveextract']);
@@ -301,6 +304,8 @@ class AdminController extends Controller
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                    Badges::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
+                                                    
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['badgesextract']);
@@ -352,6 +357,7 @@ class AdminController extends Controller
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
+                                                    Objectiveleaderboard::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['leaderboard']);

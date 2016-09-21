@@ -18,14 +18,16 @@ class Objectiveleaderboard extends Model
          return Objectiveleaderboard::
                                       where('client_id','=',Session::get('clientId'))
                                       ->where('region','=',Session::get('region'))
+                                      ->where('status','=','A')
                                       ->orderBy('rank')
                                       ->get();
      }
      
      static public function insertleadObjective($data,$data2){
-         $newobjectivelead= Objectiveleaderboard::firstOrNew(['client_id'=>$data2['client_id'],'mobile_no'=>$data['user_mobile_no']]);
+         $newobjectivelead= new Objectiveleaderboard();
          $newobjectivelead->obj2_list_id=$data['objective_no'];
          $newobjectivelead->upload_id=$data2['upload_id'];
+         $newobjectivelead->client_id=$data2['client_id'];
          $newobjectivelead->user_name=$data['user_name'];
          $newobjectivelead->mobile_no=$data['user_mobile_no'];
          $newobjectivelead->obj_text=$data['objective_text'];

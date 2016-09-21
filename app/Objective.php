@@ -27,7 +27,7 @@ class Objective extends Model
         static public function insertObjective($data,$data2){
             
             
-            $newobjective= Objective::firstOrNew(['client_id'=>$data2['client_id'],'objective_name'=>$data['objective_text']]);
+            $newobjective= new Objective();
             $newobjective->client_id=$data2['client_id'];
             $newobjective->upload_id=$data2['upload_id'];
             $newobjective->obj_id=$data['objective_no'];
