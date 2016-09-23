@@ -252,8 +252,10 @@
   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
   ga('create', 'UA-71192393-4', 'auto');
+  ga('set', 'userid', "{{Session::get('empId')}}");
+  ga('set', 'userId', "{{Session::get('empId')}}");
   ga('send', 'pageview');
-  ga('set', 'userId', {{Session::get('empId')}});
+  
 
         </script>
 

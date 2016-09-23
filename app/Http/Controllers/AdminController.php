@@ -98,7 +98,6 @@ class AdminController extends Controller
                 return Response::json(array('status'=>'error','type'=>'File Read Error','Debug exception'=>$e));
             }
             
-            
           // Getting data for  client name checking
             if((isset($inputs['client']) && ($inputs['client']!="") )){
                 $clientdata=  Clients::find(($inputs['client']));
