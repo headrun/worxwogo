@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Session;
 use Auth;
 use App\Clients;
-
+use Hash;
+use Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
@@ -16,27 +17,40 @@ class vaultController extends Controller
 {
     public function login(Request $request){
         $inputs = $request->all();
-        if(isset($inputs['mobileNumber']) && isset($inputs['client_id']) && User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('client_id','=',$inputs['client_id'])->where('status','=','A')->exists()){
-            $user_data=User::where('mobilenumber','=',$inputs['mobileNumber'])->where('user_type','=','USER')->where('client_id','=',$inputs['client_id'])->where('status','=','A')->get();
+        if(isset($inputs['mobileNumber']) && isset($inputs['client_id']) && 
+                User::where('mobilenumber','=',$inputs['mobileNumber'])
+                      ->where('user_type','=','USER')
+                      ->where('client_id','=',$inputs['client_id'])
+                      ->where('status','=','A')
+                      ->exists()){
+            
+            $user_data=User::where('mobilenumber','=',$inputs['mobileNumber'])
+                    ->where('user_type','=','USER')
+                    ->where('client_id','=',$inputs['client_id'])
+                    ->where('status','=','A')
+                    ->get();
             $user_data=$user_data[0];
-            Auth::loginUsingId($user_data['id']);
-            Session::put('userId', $user_data->id);
-            Session::put('clientId', $user_data->client_id);
-            Session::put('empId', $user_data->emp_code);
-            Session::put('name', $user_data->name);
-            Session::put('points', $user_data->user_points);
-            Session::put('mobileNumber', $user_data->mobilenumber);
-            Session::put('userType', $user_data->user_type);
-            Session::put('region', $user_data->region);
-            Session::put('territory', $user_data->territory);
-            return redirect()->intended('/dashboard/index');
-               
+            if(Hash::check($inputs['password'],$user_data['password'])){
+                Auth::loginUsingId($user_data['id']);
+                Session::put('userId', $user_data->id);
+                Session::put('clientId', $user_data->client_id);
+                Session::put('empId', $user_data->emp_code);
+                Session::put('name', $user_data->name);
+                Session::put('points', $user_data->user_points);
+                Session::put('mobileNumber', $user_data->mobilenumber);
+                Session::put('userType', $user_data->user_type);
+                Session::put('region', $user_data->region);
+                Session::put('territory', $user_data->territory);
+                return redirect()->intended('/dashboard/index');
+            }else{
+                Session::flash('message', 'Invalid Mobile No or Password.');
+                $client_data=Clients::find($inputs['client_id']);
+                return Redirect::to ('/'.$client_data['client_name']);
+            }
         }else{
             $client_data=Clients::find($inputs['client_id']);
-            //return $client_data['client_name'];
-             return vaultController::register($client_data['client_name']);
-           // $viewData = array('client_data');
-           // return view('/vault/Register',compact($viewData));/*,compact($viewData)*/
+            Session::flash('message', 'Invalid Mobile No or Password.');
+            return Redirect::to ('/'.$client_data['client_name']);
         }
     }
     
@@ -97,8 +111,7 @@ class vaultController extends Controller
         $client_data=Clients::find(Session::get('clientId'));
         Session::flush();
 	Session::flash('message', 'You have successfully logged out of the system.');
-	Session::flash('alert-class', 'alert-success');
-        if($user_type=='ADMIN'){
+	if($user_type=='ADMIN'){
             return Redirect::action('VaultController@adminLogin');   
         }else if($user_type=='USER'){
             $destination='/'.$client_data['client_name'];
@@ -106,8 +119,172 @@ class vaultController extends Controller
         }
         
     }
-
     
+    public function checkMobileNoforRegistration(Request $request){
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('password','=','')
+                ->where('status','=','A')
+                ->exists()  ){
+            $user_data=User::where('client_id','=',$inputs['client_id'])
+                            ->where('mobilenumber','=',$inputs['mobileNumber'])
+                            ->where('password','=','')
+                            ->where('status','=','A')
+                            ->select('id')->get();
+            $user_data=$user_data[0];
+            $user=User::find($user_data['id']);
+            $string = str_random(6);
+            
+            $msg="Dear User, you are trying to Register your A/c. Your OTP is ".$string." DONT SHARE WITH ANYONE";
+             //file_get_contents("http://smshorizon.co.in/api/sendsms.php?user=LM-WRX&apikey=tVzFTcAxyXiWhh3Rs7wb&mobile=".(int)$inputs['mobileNumber']."&message=".$msg."&senderid=WRXOGO&type=txt",false);
+            $msg=urlencode($msg);
+            $ch = curl_init("http://smshorizon.co.in/api/sendsms.php?user=LM-WRX&apikey=tVzFTcAxyXiWhh3Rs7wb&mobile=".$inputs['mobileNumber']."&senderid=WRXOGO&message=".$msg."&type=txt"); 
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($ch);      
+            curl_close($ch);
+            
+            $user->otp=$string;
+            $user->save();
+            
+            return Response::json(array('status'=>'success'));
+            
+        }else{
+            return Response::json(array('status'=>'failure'));
+        }
+        
+    }
+    
+    
+    public function checkOTPforRegistration(Request $request ){
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['otppassword']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('otp','=',$inputs['otppassword'])
+                ->where('status','=','A')
+                ->exists()  ){
+            
+            return Response::json(array('status'=>'success'));
+            
+         }else{
+             return Response::json(array('status'=>'failure'));
+         }
+        
+    }
+    
+    public function registeruser(Request $request){
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['otppassword']) &&
+           isset($inputs['password']) && isset($inputs['confirmpassword']) &&
+           ($inputs['password']==$inputs['confirmpassword']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('otp','=',$inputs['otppassword'])
+                ->where('password','=','')
+                ->where('status','=','A')
+                ->exists()  ){
+            
+            $user_data=User::where('client_id','=',$inputs['client_id'])
+                             ->where('mobilenumber','=',$inputs['mobileNumber'])
+                             ->where('otp','=',$inputs['otppassword'])
+                             ->where('password','=','')
+                             ->where('status','=','A')
+                             ->select('id')->get();
+            $user_data=$user_data[0];
+            $user=User::find($user_data['id']);
+            $user->password=Hash::make($inputs['password']);
+            $user->save();
+            
+            return Response::json(array('status'=>'success'));
+            
+         }else{
+             return Response::json(array('status'=>'failure'));
+         }
+    }
+
+    public function UpdatePassword(Request $request) {
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['password']) && isset($inputs['confirmpassword']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('password','!=','')
+                ->where('status','=','A')
+                ->exists()
+          ){
+            $user_data=User::where('client_id','=',$inputs['client_id'])
+                             ->where('mobilenumber','=',$inputs['mobileNumber'])
+                             ->where('password','!=','')
+                             ->where('status','=','A')
+                             ->select('id')->get();
+            $user_data=$user_data[0];
+            $user=User::find($user_data['id']);
+            $user->password=Hash::make($inputs['password']);
+            $user->save();
+            
+             return Response::json(array('status'=>'success'));
+        }else{
+            return Response::json(array('status'=>'failure'));
+        }
+    }
+    
+    
+    public function checkMobileNumberValidForChangePassword(Request $request){
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['client_id']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('password','!=','')
+                ->where('status','=','A')
+                ->exists()  ){
+            
+            // set OTP
+            $user_data=User::where('client_id','=',$inputs['client_id'])
+                            ->where('mobilenumber','=',$inputs['mobileNumber'])
+                            ->where('password','!=','')
+                            ->where('status','=','A')->get();
+            $user_data=$user_data[0];
+            $user=User::find($user_data['id']);
+            
+            $string = str_random(6);
+            $msg="Dear User, you are trying to Change Password for  your A/c. Your OTP is ".$string." DONT SHARE WITH ANYONE";
+            $msg=urlencode($msg);
+            
+            $ch = curl_init("http://smshorizon.co.in/api/sendsms.php?user=LM-WRX&apikey=tVzFTcAxyXiWhh3Rs7wb&mobile=".$inputs['mobileNumber']."&senderid=WRXOGO&message=".$msg."&type=txt"); 
+            curl_setopt($ch, CURLOPT_HEADER, 0);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $output = curl_exec($ch);      
+            curl_close($ch);
+             
+            $user->otp=$string;
+            $user->save();
+            
+            
+            
+            return Response::json(array('status'=>'success'));
+        }else{
+            return Response::json(array('status'=>'failure'));
+        }
+        
+    }
+    
+    public function otppasswordcheckforforgotpassword(Request $request){
+        $inputs=$request->all();
+        if(isset($inputs['mobileNumber']) && isset($inputs['client_id']) && isset($inputs['otppassword']) &&
+           User::where('client_id','=',$inputs['client_id'])
+                ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('password','!=','')
+                ->where('otp','=',$inputs['otppassword'])
+                ->where('status','=','A')
+                ->exists()  ){
+            
+            return Response::json(array('status'=>'success'));
+        }else{
+            return Response::json(array('status'=>'failure'));
+        }
+    }
     
     /**
      * Display a listing of the resource.

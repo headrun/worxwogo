@@ -14,6 +14,7 @@ class Errobjlist extends Model
         
         $errobjlist->client_id=$data['client_id'];
         $errobjlist->upload_id=$data['upload_id'];
+        $errobjlist->obj_id=$row['objective_no'];
         $errobjlist->objective_name=$row['objective_text'];
         $errobjlist->status=$row['status'];
         $errobjlist->error=$row['error'];

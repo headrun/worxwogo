@@ -5,6 +5,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <!-- CSS -->
+        <link rel="stylesheet" href="{{url()}}/assets/spinners/mk-spinners.css">
+
         <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
         
@@ -246,6 +248,7 @@
         <script src="{{url()}}/assets/js/jquery.js"></script>
         <script src="{{url()}}/assets/js/bootstrap.min.js"></script>
         <script>
+  /*
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -254,14 +257,32 @@
   ga('create', 'UA-71192393-4', 'auto');
   ga('set', 'userid', "{{Session::get('empId')}}");
   ga('set', 'userId', "{{Session::get('empId')}}");
+  ga('set', 'dimension1', "{{Session::get('empId')}}");
   ga('send', 'pageview');
   
+  */
+$(window).on('load', function() {
+                
+                $('#preloader').modal({backdrop: 'static', keyboard: false});
+                
+                setTimeout(function(){
+                    $("#preloader").fadeOut(function(){
+                        $('.modal-backdrop.in').css('opacity','0');
+                        $('#preloader').modal('hide');
+                    });
+                },200);
+                
+});
 
         </script>
 
     </head>
     <body class="" style="background-color:#F0F0F0">
-        
+                
+        <div id ="preloader" class="modal">
+            <div class="mk-spinner-centered mk-spinner-ring"></div>
+        </div>
+
          <!-- header -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation"  >
             <div class="container-fluid">

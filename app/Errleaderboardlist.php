@@ -22,8 +22,8 @@ class Errleaderboardlist extends Model
         $errobjlead->points=$row['user_points'];
         $errobjlead->status=$row['status'];
         $errobjlead->region=$row['region'];
-        $errobjlead->zone=$row['zone'];
-        //$errobjlead->territory=$row[''];
+        //$errobjlead->zone=$row['zone'];
+        $errobjlead->territory=$row['territory'];
         $errobjlead->client_name=$row['client_name'];
         $errobjlead->created_ts=$row['created_ts'];
         $errobjlead->created_by=Session::get('UserId');

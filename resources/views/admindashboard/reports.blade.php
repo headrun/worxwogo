@@ -2,25 +2,28 @@
 
 @section('libraryCSS')
  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css">
+	
+
 @stop
 
 
 @section('libraryJS')
  <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
- <!-- datatables -->
-    <script src="{{url()}}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
-    <!-- datatables colVis-->
-    <script src="{{url()}}/bower_components/datatables-colvis/js/dataTables.colVis.js"></script>
-    <!-- datatables tableTools-->
-    <script src="{{url()}}/bower_components/datatables-tabletools/js/dataTables.tableTools.js"></script>
-    <!-- datatables custom integration -->
-    <script src="{{url()}}/assets/js/custom/datatables_uikit.min.js"></script>
-
-    <!--  datatables functions -->
-    <script src="{{url()}}/assets/js/pages/plugins_datatables.min.js"></script>
+<script type="text/javascript" language="javascript" src="//code.jquery.com/jquery-1.12.3.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js">
+	</script>
+	<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js">
+	</script>
   
 
 <script>
+    var jq = $.noConflict();
     $(document).ready(function(){
         $( "#startdate" ).datepicker({ dateFormat: 'yy-mm-dd' });
         $( "#enddate" ).datepicker({ dateFormat: 'yy-mm-dd' });
@@ -31,8 +34,8 @@
         
         
         var data='';
-        $('#generatereport').click(function(){
-            $.ajax({
+        jq('#generatereport').click(function(){
+            jq.ajax({
                 type: "POST",
                 url: "{{URL::to('/quick/getreportdata')}}",
                 data: {'company_id':$('#client').val(),'report_type':$('#reporttype').val(),'startdate':$('#startdate').val(),'enddate':$('#enddate').val()},
@@ -45,6 +48,7 @@
                          data+='<table class="uk-table" id="followupTable" >'+
                                     '<thead>'+
                                         '<tr>'+
+                                            '<th class="uk-text-nowrap"> upload id </th>'+
                                             '<th class="uk-text-nowrap">Extract Type</th>'+
                                             '<th class="uk-text-nowrap">Status</th>'+
                                             '<th class="uk-text-nowrap">uploaded date</th>'+
@@ -52,12 +56,40 @@
                                     '</thead>'+
                                     '<tbody>';
                             for (var i=0;i<response.data.length;i++){
-                                data+="<tr><td>"+response.data[i]['insert_table']+"</td><td>"+response.data[i]['status']+"</td><td>"+response.data[i]['created_at']+"</td></tr>";
+                                data+="<tr><td>"+response.data[i]['id']+"</td><td>"+response.data[i]['insert_table']+"</td><td>"+response.data[i]['status']+"</td><td>"+response.data[i]['created_at']+"</td></tr>";
                             }
                             data+="</tbody></table>";
-                            $('.reporttable').empty();
-                            $('.reporttable').html(data);
-                            $('#followupTable').DataTable();
+                            jq('.reporttable').empty();
+                            jq('.reporttable').html(data);
+                            var table = jq('#followupTable').DataTable({
+                                    dom: 'Bfrtip',
+                                    select: true,
+                                    buttons: [
+                                    {
+                                        text: 'Export',
+                                        action: function ( e, dt, node, config ) {
+                                        var rowdata= dt.row( { selected: true } ).indexes() ;
+                                        var data = dt.cells( rowdata, 2 ).data();
+                                        var id=dt.cells( rowdata, 0 ).data();
+                                        if(data[0]==='FAILURE'){
+                                            window.open("{{url()}}"+"/errorupload/"+id[0], '_blank');
+                                        }else{
+                                            $('.errmsg').html("<p class='uk-alert uk-alert-warning'>"+
+                                                                "please select failed upload</p>");
+                                        }
+					console.log(data);
+                                        },
+                                        enabled: false
+                                    }
+                                    ]
+                                    });
+                                    
+                                    table.on( 'select', function () {
+                                        var selectedRows = table.rows( { selected: true } ).count();
+
+                                    table.button( 0 ).enable( selectedRows === 1 );
+                                   // table.button( 1 ).enable( selectedRows > 0 );
+                                    } );
                         }else if(response.type==='errorreport'){
                             data="";
                             data+='<table class="uk-table" id="followupTable" >'+
@@ -75,9 +107,9 @@
                                "<tr><td>Badges Extract</td><td>"+response.data['badges']['total']+"</td><td>"+response.data['badges']['error']+"</td></tr>"+
                                "<tr><td>Leaderboard Extract</td><td>"+response.data['leaderboard']['total']+"</td><td>"+response.data['leaderboard']['error']+"</td></tr>";
                             data+="</tbody></table>";
-                            $('.reporttable').empty();
-                            $('.reporttable').html(data);
-                            $('#followupTable').DataTable();
+                            jq('.reporttable').empty();
+                            jq('.reporttable').html(data);
+                            jq('#followupTable').DataTable();
                         }
                     }else{
                         
@@ -147,7 +179,9 @@
             </div>
         <br>
         <div class="row">
+            
             <div class="uk-grid" data-uk-grid-margin >
+                
                 <div class="uk-width-medium-1-3">  
                     <div class="parsley-row form-group">
                         <button type="submit" id="generatereport" class="md-btn md-btn-primary" >Generate Report</button>
@@ -166,7 +200,9 @@
                 </div>
             </div>
         </div>
+        
         <br>
+        <div class="errmsg"></div>
         <div class="row reporttable">
              
         </div>

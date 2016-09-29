@@ -17,9 +17,7 @@ Route::get('/',"VaultController@def" );
 Route::post('/login',"VaultController@login");
 //***************************** Login and Register Routes *******************//
 Route::group(array('prefix' => 'vault'), function() {
-    //User Login
-    //Route::any('Register', "VaultController@register");
-    // Admin Login
+    
     Route::any('adminlogin', "VaultController@adminLogin");
     
     Route::get('logout', "VaultController@logout");	
@@ -57,12 +55,16 @@ Route::group(array('prefix' => 'status'), function() {
     Route::get('/failure', "UserController@failure");
 });
 
+//error dump upload
+Route::any('/errorupload/{upload_id}',"AdminController@dumperrorupload");
 
 //***************************** Admin Post Routes ****************************//
 //Route::post('uploaddata','AdminController@uploaddata');
 Route::post('addusers','UserController@uploadUsers');
 Route::post('addobjectives','ObjectiveController@uploadObjectives');
 Route::post('addobjectiveprogress','ObjectiveController@uploadObjectiveprogress');
+
+
 
 
 Route::group(array('prefix' => 'quick'), function() {
@@ -74,4 +76,21 @@ Route::group(array('prefix' => 'quick'), function() {
     Route::any('/addClient','DashboardController@addnewCompany');
     Route::any('/getobjlist','DashboardController@getobjlist');
     Route::any('/getreportdata','DashboardController@getreportdata');
+    
+    // Registation
+    Route::any('/checkMobileNoforRegistration','VaultController@checkMobileNoforRegistration');
+    Route::any('/checkOTPforRegistration','VaultController@checkOTPforRegistration');
+    Route::any('/registeruser','VaultController@registeruser');
+    
+    Route::any('/checkmobilenumbervalid','VaultController@checkMobileNumberValidForChangePassword');
+    Route::any('otppasswordcheckforforgotpassword','vaultController@otppasswordcheckforforgotpassword');
+    Route::any('/UpdatePassword','VaultController@UpdatePassword');
+});
+
+
+
+
+
+Route::any('/t',function(){
+   return Uploadstatus::where('insert_table','=','USER')->max('id'); 
 });

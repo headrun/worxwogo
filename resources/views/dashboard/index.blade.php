@@ -8,7 +8,6 @@
     .circle{
         width: 100px;
 	height: 150px;
-        
         -moz-border-radius: 50%;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
@@ -149,31 +148,7 @@
         var chart = new google.visualization.BarChart(document.getElementById("{{'chart'.$objective->id}}"));
         chart.draw(data, options);
          <?php }?>
-//       <?php //}else if($objective->objective_type==='TARGET'){?>
-//        var datatarget = google.visualization.arrayToDataTable([
-//        ['', 'Achieved value in {{$objective->target_value_units}}', 'Target value in {{$objective->target_value_units}}'],
-//        ['', {{$objective->target_ach_value}},{{$objective->target_value}}],
-//       
-//      ]);
-//
-//      var optionstarget = {
-//        //chartArea: {width: '65%'},
-//        legend: {position: 'top', maxLines: 1},
-//        isStacked: true,
-//        colors: ['#d9534f','lightgreen'],
-//        hAxis: {
-//         
-//          minValue: 0,
-//          maxValue: {{$objective->target_ach_value}},
-//        },
-//        
-//      };
-//        var chart = new google.visualization.BarChart(document.getElementById("{{'chart'.$objective->id}}"));
-//        chart.draw(datatarget, optionstarget);
-//       <?php// } ?>
-      
-      
-        @endforeach
+       @endforeach
       }
       
       

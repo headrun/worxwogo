@@ -40,10 +40,25 @@ class User extends Model implements AuthenticatableContract,
     
     
     static public function insertUsers($data,$data2){
+        
+        
+        
+        
+        
         $newuser= new User();
         $newuser->name=$data['user_name'];
         $newuser->client_id=$data2['client_id'];
         $newuser->mobilenumber=$data['user_mobile'];
+        if(User::where('client_id','=',$data2['client_id'])
+                               ->where('emp_code','=',$data['user_emp_code'])
+                               ->exists()){
+          $useroldid=User::where('client_id','=',$data2['client_id'])
+                               ->where('emp_code','=',$data['user_emp_code'])
+                               ->max('id');
+          $userolddata=User::find($useroldid);
+          $newuser->password=$userolddata->password;
+          
+        }
         $newuser->upload_id=$data2['upload_id'];
         $newuser->emp_code=$data['user_emp_code'];
         $newuser->territory=$data['territory'];

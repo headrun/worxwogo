@@ -5,6 +5,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <!-- CSS -->
+                <link rel="stylesheet" href="{{url()}}/assets/spinners/mk-spinners.css">
+
         <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
         <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
         @yield('libraryCSS')
@@ -281,6 +283,7 @@
         <script src="{{url()}}/assets/js/jquery.js"></script>
         <script src="{{url()}}/assets/js/bootstrap.min.js"></script>
 <script>
+  /*  
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -289,9 +292,22 @@
   ga('create', 'UA-71192393-4', 'auto');
   ga('set', 'userid', "{{Session::get('empId')}}");
   ga('set', 'userId', "{{Session::get('empId')}}");
+  ga('set', 'dimension1', "{{Session::get('empId')}}");
   ga('send', 'pageview');
+  */
   
-
+$(window).on('load', function() {
+                
+                $('#preloader').modal({backdrop: 'static', keyboard: false});
+                
+                setTimeout(function(){
+                    $("#preloader").fadeOut(function(){
+                        $('.modal-backdrop.in').css('opacity','0');
+                        $('#preloader').modal('hide');
+                    });
+                },200);
+                
+});
 </script>
 
         
@@ -313,7 +329,7 @@
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="visible-xs " height="55px" width="90px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
                         <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
                     </a>
                     <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
@@ -338,48 +354,17 @@
                 </div>
             </div>
         </nav>
+        
+        <div id ="preloader" class="modal">
+            <div class="mk-spinner-centered mk-spinner-ring"></div>
+        </div>
+        
 <div class="container-fluid">
 <div class="row leaderboard-toolbar">
     <h4 class="text-center ">{{$client_data['program_name']}}</h4><br>
 </div>
 </div>
         @yield('content')
-        
-<!--        
-        <div class="row" style="background-color:#00BBD3">
-            <div class="col-lg-1 col-md-1 col-sm-1 "></div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default btn-lg btn-link" style="font-size:36px;">
-                    <span class=" center-block text-center glyphicon glyphicon-home active" ></span>
-                </button>
-                <span class="badge badge-notify"></span>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default btn-lg btn-link" style="font-size:36px;">
-                <span class="glyphicon glyphicon-envelope"></span>
-                </button>
-                <span class="badge badge-notify">6</span>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default btn-lg btn-link" style="font-size:36px;">
-                <span class="glyphicon glyphicon-comment"></span>
-                </button>
-                <span class="badge badge-notify">2</span>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default btn-lg btn-link" style="font-size:36px;">
-                <span class="glyphicon glyphicon-thumbs-up"></span>
-                </button>
-                <span class="badge badge-notify">3</span>
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <button class="btn btn-default btn-lg btn-link" style="font-size:36px;">
-                <span class="glyphicon glyphicon-certificate"></span>
-                </button>
-                <span class="badge badge-notify">3</span>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
-        </div>-->
         @yield('libraryJS')
     </body>
 </html>

@@ -1,0 +1,88 @@
+@media(max-width:767px) {
+    .clientlogo {
+        height: 50px;
+        width: 150px;
+    }
+    .logo2 {
+        height: 40px;
+        width: 150px;
+    }
+}
+@media(min-width:768px) {
+    .clientlogo {
+        height: 75px;
+        width: 200px;
+    }
+}
+@media(min-width:992px) {
+    .clientlogo {
+        height: 75px;
+        width: 210px;
+    }
+}
+@media(min-width:1200px) {
+    .clientlogo {
+        height: 76px;
+        width: 225px;
+    }
+}
+.login,
+.register {
+    cursor: pointer;
+    -o-transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -ms-transition: all .3s;
+    transition: all .3s;
+    color: white;
+}
+.login {
+    border-bottom: 2px white solid;
+}
+.container-fluid {
+    background-color: #F0F0F0;
+}
+.login-box {
+    margin-top: 5%;
+    float: none !important;
+    background-color: #00BBCF;
+    padding: 15px;
+    border-radius: 50px;
+    box-shadow: 10px 10px 15px #888888;
+}
+.heading {
+    color: white;
+}
+.remove,
+.confirmpassworddiv,
+.passremove ,
+.otppassremove,
+.otpdiv,
+.resendotpdiv {
+    display: none;
+}
+#mobileNumber,
+#password,
+#confirmpassword,
+#otppassword {
+    cursor: text;
+    background-color: #fff;
+}
+#sessionerror {
+    font-size: 12px;
+    color: red;
+}
+.errormsg {
+    font-size: 12px;
+    color: red;
+}
+.forgotpasslink {
+    color: whitesmoke;
+}
+a:hover,
+a:focus {
+    color: white;
+}
+.resendotp{
+	font-size:smaller;
+}

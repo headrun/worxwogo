@@ -63,16 +63,16 @@ class AdminController extends Controller
               return $columncheckdata[$j];
             }
         }
-        return 1;
+        return 'success';
     }
     
     static public function checkfordata($rowdata,$columnnames){
         for($j=0;$j<count($columnnames);$j++){
             if((strlen($rowdata[$columnnames[$j]])==0)){
-                return $columnnames[$j];
+                return $columnnames[$j]; 
             }
         }
-        return 1;
+        return 'success';
     }
     
     static public function rowemtycheck($row,$columnnames){
@@ -141,33 +141,43 @@ class AdminController extends Controller
                                             
                                             
                                             $columnstatus=AdminController::checkforcolumn($columnnames['objectivelist'],$data[$i]);
-                                            if(($columnstatus==1)){
+                                            if(($columnstatus === 'success')&&($data[$i]['client_name']===$clientdata->client_name)){
+                                                
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
+                                                    $error=0;
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
                                                     Objective::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['objectivelist']);
-                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                if($datacheck == 'success'){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     $objective =  Objective::insertObjective($data[$i],$data2);
+                                                    if($error==0){
                                                      $error=0;
+                                                    }
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['objectivelist']);
                                                     if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
-                                                    $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
+                                                    $data[$i]['error']='Data Validation Error on column '.$datacheck;
                                                     $error=1;
                                                     $errobj_list=Errobjlist::insertobjerrlist($data[$i],$data2);
                                                     }
                                                 }
                                             }else{
-                                            // Column not found error
-                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                if($columnstatus != 'success'){
+                                                      // Column not found error
+                                                     return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                    
+                                                }else{
+                                                    return  Response::json(array('status'=>'error','type'=>'company name conflict'));   
+                                                }
+                                             
                                             }
                                         }
                                         if(!$error){
@@ -187,43 +197,52 @@ class AdminController extends Controller
                                 $uploadstatusdata['insert_table']='USER';
                                 $uploadstatusdata['client_id']=$inputs['client'];
                                 $uploadstatusdata['status']='FAILURE';
+                                
+                         
                                  
                                 if(!empty($data) && $data->count()){
                                    
                                         for($i=0;$i<count($data);$i++){
                                             //checking for all the fields exists in objectivelist
                                             $columnstatus=AdminController::checkforcolumn($columnnames['userslist'],$data[$i]);
-                                            if(($columnstatus==1)){
+                                            if(($columnstatus==='success')&&($data[$i]['client_name']===$clientdata->client_name)){
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
+                                                    $error=0;
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
                                                     User::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['userslist']);
-                                                if(($datacheck == '1' )&&(!strcmp($data[$i]['client_name'],$clientdata->client_name))){
+                                                if($datacheck == 'success'){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     
                                                     $users = User::insertUsers($data[$i],$data2);
-                                                    
+                                                    if($error==0){
                                                      $error=0;
+                                                    }
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['userslist']);
                                                     if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                         $data2['client_id']=$clientdata->id;
                                                         $data2['upload_id']=$upload_status->id;
+                                                        $data[$i]['error']='Data Validation Error on column '.$datacheck.' ]';
                                                         $error=1;
-                                                        $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
                                                         $errobj_list=Erruserlist::insertusererrlist($data[$i],$data2);
                                                     }
                                                     
                                                 }
                                      }else{
-                                            // Column not found error
-                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                          if($columnstatus != 'success'){
+                                                // Column not found error
+                                                     return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                    
+                                          }else{
+                                                    return  Response::json(array('status'=>'error','type'=>'company name conflict'));   
+                                          }
                                         }
                                     }
                                         if(!$error){
@@ -248,34 +267,42 @@ class AdminController extends Controller
                                             //return Response::json($data[$i]);
                                             //checking for all the fields exists in objectivelist
                                             $columnstatus=AdminController::checkforcolumn($columnnames['objectiveextract'],$data[$i]);
-                                            if(($columnstatus==1)){
+                                            if(($columnstatus==='success')&&($data[$i]['client_name']===$clientdata->client_name)){
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
+                                                    $error=0;
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
                                                     Objectiveprogress::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['objectiveextract']);
-                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                if($datacheck == 'success' ){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     $users = Objectiveprogress::insertobjectiveprogress($data[$i],$data2);
+                                                    if($error==0){
                                                     $error=0;
+                                                    }
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['objectiveextract']);
                                                     if(!$rowemptycheck){
                                                         // Data Validation Error insert to Error table
                                                         $data2['client_id']=$clientdata->id;
                                                         $data2['upload_id']=$upload_status->id;
-                                                        $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
+                                                        $data[$i]['error']='Data Validation Error on column '.$datacheck;
                                                         $error=1;
                                                         $errobj_list=Errobjectiveprogresslist::inserterrobjectiveprogresslist($data[$i],$data2);
                                                     }
                                                 }
                                             }else{
-                                            // Column not found error
-                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
-                                        }
+                                                if($columnstatus != 'success'){
+                                                    // Column not found error
+                                                    return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                    
+                                                }else{
+                                                    return  Response::json(array('status'=>'error','type'=>'company name conflict'));   
+                                                }
+                                            }
                                         }
                                         if(!$error){
                                             $upload_status->status='SUCCESS';
@@ -299,20 +326,22 @@ class AdminController extends Controller
                                             
                                             
                                             $columnstatus=AdminController::checkforcolumn($columnnames['badgesextract'],$data[$i]);
-                                            if(($columnstatus==1)){
+                                            if(($columnstatus=='success')&&($data[$i]['client_name']===$clientdata->client_name)){
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
+                                                    $error=0;
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
                                                     Badges::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
-                                                    
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['badgesextract']);
-                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                if($datacheck == 'success'){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     $badges =  Badges::insertBadges($data[$i],$data2);
+                                                    if($error==0){
                                                      $error=0;
+                                                    }
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['badgesextract']);
                                                     //return Response::json($rowemptycheck);
@@ -320,14 +349,19 @@ class AdminController extends Controller
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
-                                                    $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
+                                                    $data[$i]['error']='Data Validation Error on column '.$datacheck;
                                                     $error=1;
                                                     $errobj_list=Errbadges::insertbadgeserrlist($data[$i],$data2);
                                                     }
                                                 }
                                             }else{
-                                            // Column not found error
-                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                if($columnstatus != 'success'){
+                                                      // Column not found error
+                                                     return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                    
+                                                }else{
+                                                    return  Response::json(array('status'=>'error','type'=>'company name conflict'));   
+                                                }
                                             }
                                         }
                                         if(!$error){
@@ -352,33 +386,41 @@ class AdminController extends Controller
                                         for($i=0;$i<count($data);$i++){
                                             //checking for all the fields exists in objectivelist
                                             $columnstatus=AdminController::checkforcolumn($columnnames['leaderboard'],$data[$i]);
-                                            if(($columnstatus==1)){
+                                            if(($columnstatus=='success')&&($data[$i]['client_name']===$clientdata->client_name)){
                                                 //Getting the instance of UploadStatus
                                                 if($i==0){
+                                                    $error=0;
                                                     $upload_status=Uploadstatus::insertuploadstatus($uploadstatusdata);
                                                     Objectiveleaderboard::where('client_id','=',$clientdata->id)->update(['status'=>'N']);
                                                 }
                                                 // now checking for Data Validations
                                                 $datacheck=AdminController::checkfordata($data[$i],$columnnames['leaderboard']);
-                                                if(($datacheck == '1' )&&($data[$i]['client_name']==$clientdata->client_name)){
+                                                if($datacheck == 'success'){
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
                                                     $users =  Objectiveleaderboard::insertleadObjective($data[$i],$data2);
-                                                     $error=0;
+                                                    if($error==0){
+                                                    $error=0;
+                                                    }
                                                 }else{
                                                     $rowemptycheck=  AdminController::rowemtycheck($data[$i],$columnnames['leaderboard']);
                                                     if(!$rowemptycheck){
                                                     // Data Validation Error insert to Error table
                                                     $data2['client_id']=$clientdata->id;
                                                     $data2['upload_id']=$upload_status->id;
-                                                    $data[$i]['error']='Row'.$data[$i].'[ Data Validation Error on column '.$datacheck.' ]';
+                                                    $data[$i]['error']='Data Validation Error on column '.$datacheck;
                                                     $error=1;
                                                     $errobj_list=Errleaderboardlist::insertleaderboarderrlist($data[$i],$data2);
                                                     }
                                                 }
                                      }else{
-                                            // Column not found error
-                                               return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                            if($columnstatus != 'success'){
+                                                      // Column not found error
+                                                return  Response::json(array('status'=>'error','type'=>'Column '.$columnstatus.' Missing'));
+                                                    
+                                            }else{
+                                                return  Response::json(array('status'=>'error','type'=>'company name conflict'));   
+                                            }
                                         }
                                     }
                                         if(!$error){
@@ -400,6 +442,164 @@ class AdminController extends Controller
         }
     }
 
+    
+    
+    
+    
+    public function dumperrorupload($upload_id){
+        $upload_data=Uploadstatus::find($upload_id);
+        switch($upload_data['insert_table']){
+         case 'USER':
+                      
+                       $data=Erruserlist::where('upload_id','=',$upload_id)->select('name','emp_code','client_name',
+                               'mobilenumber','territory','region','designation','user_level_name',
+                               'user_level_image_name','user_points','created_ts','status','reporting_user',
+                               'reporting_name','reporting_desg','error')->get();
+                       $userlistArray[]=['USER_NAME','USER_MOBILE','USER_EMP_CODE','REPORTING_USER',
+                                    'REPORTING_NAME','REPORTING_DESG','USER_LEVEL_NAME','USER_LEVEL_IMAGE_NAME',
+                                    'USER_POINTS','CREATED_TS','STATUS','REGION','TERRITORY','DESIGNATION',
+                                    'CLIENT_NAME','ERROR'];
+                                
+                       for($i=0;$i<count($data);$i++){
+                       if($i==0){
+                            $client_data=Clients::find($data[$i]['client_id']);
+                        }
+                        $userlistArray[]=[$data[$i]['name'],$data[$i]['mobilenumber'],$data[$i]['emp_code'],
+                                          $data[$i]['reporting_user'],$data[$i]['reporting_name'],
+                                          $data[$i]['reporting_desg'],$data[$i]['user_level_name'],
+                                          $data[$i]['user_level_image_name'],$data[$i]['user_points'],
+                                          $data[$i]['created_ts'],$data[$i]['status'],$data[$i]['region'],
+                                          $data[$i]['territory'],$data[$i]['designation'],
+                                          $data[$i]['client_name'],$data[$i]['error']];    
+                       }
+                       unset($data);
+                       Excel::create('USER_DETAILS',function($excel) use($userlistArray){
+                            $excel->setTitle('USER_DETAILS');
+                            $excel->setCreator('Portal')->setCompany('WORXOGO');
+                            $excel->setDescription('User List');
+
+                            $excel->sheet('USER_LIST',function($sheet) use($userlistArray){
+                                $sheet->fromArray($userlistArray, null, 'A1', false, false); 
+                            }); 
+                       })->export('xlsx');
+             
+                       break;
+                    
+         case 'OBJECTIVE_LIST': 
+                                $data=ErrObjlist::where('upload_id','=',$upload_id)->select('obj_id','objective_name','status','created_ts','client_id','error')->get();
+                                $objlistArray[]=['OBJECTIVE_NO','OBJECTIVE_TEXT','STATUS','CREATED_TS','CLIENT_NAME','ERROR'];
+                                
+                                for($i=0;$i<count($data);$i++){
+                                if($i==0){
+                                    $client_data=Clients::find($data[$i]['client_id']);
+                                }
+                                $objlistArray[]=[$data[$i]['obj_id'],$data[$i]['objective_name'],$data[$i]['status'],$data[$i]['created_ts'],$client_data['client_name'],$data[$i]['error']];    
+                                }
+                                unset($data);
+                                Excel::create('OBJECTIVE_LIST',function($excel) use($objlistArray){
+                                    $excel->setTitle('OBJECTIVE_LIST');
+                                    $excel->setCreator('Portal')->setCompany('WORXOGO');
+                                    $excel->setDescription('Objective List');
+
+                                   $excel->sheet('OBJECTIVE_LIST',function($sheet) use($objlistArray){
+                                      $sheet->fromArray($objlistArray, null, 'A1', false, false); 
+                                   }); 
+                                })->export('xlsx');
+             
+                                  break;
+         case 'OBJECTIVES_PROGRESS':
+                        $data=Erruserlist::where('upload_id','=',$upload_id)->get();
+                       $userlistArray[]=['USER_NAME','USER_MOBILE_NO','USER_EMPLOYEE_CODE','OBJECTIVE_NO',
+                                    'OBJECTIVE_TEXT','DATA_TYPE','OBJECTIVE_TYPE','TARGET_OBJ_MONTH',
+                                    'TARGET_OBJ_VALUE','TARGET_OBJ_ACH_PER','TARGET_OBJ_ACH_VALUE',
+                                    'TARGET_OBJ_TOBE_ACH_PER','TARGET_OBJ_TOBE_ACH_VALUE','TARGET_OBJ_VALUE_UNITS',
+                                    'TARGET_OBJ_SKEW_INDICATOR','TARGET_OBJ_SKEW_TARGET','SEG_OBJ_START_VALUE',
+                                    'SEG_OBJ_END_VALUE','SEG_OBJ_START_PER','SEG_OBJ_END_PER','SEG_OBJ_VALUE_UNITS',
+                                    'SEG_OBJ_GOOD_START_PER','SEG_OBJ_GOOD_END_PER','SEG_OBJ_BAD_START_PER',
+                                    'SEG_OBJ_BAD_END_PER','SEG_OBJ_VGOOD_START_PER','SEG_OBJ_VGOOD_END_PER',
+                                    'SEG_OBJ_ACH_VALUE','QTY_HIGHEST_ACH_NO','QTY_CURRENT_ACH_NO','QTY_VALUE_UNITS',
+                                    'OBJECTIVE_POINTS','CREATED_TS','STATUS','CLIENT_NAME','SEG_OBJ_TARGET_VALUE',
+                                    'SEG_OBJ_TARGET_VALUE_UNITS','SEG_OBJ_TXT','ERROR'];
+                                
+                       for($i=0;$i<count($data);$i++){
+                       if($i==0){
+                            $client_data=Clients::find($data[$i]['client_id']);
+                        }
+                        $objprogressArray[]=[$data[$i]['user_name'],$data[$i]['mobile_no'],$data[$i]['emp_code'],$data[$i]['obj_no'],
+                                          $data[$i]['obj_text'],$data[$i]['objective_datatype'],$data[$i]['objective_type'],$data[$i]['target_obj_mnth'],
+                                          $data[$i]['target_value'],$data[$i]['target_ach_percentage'],$data[$i]['target_ach_val'],
+                                          $data[$i]['target_to_be_ach_percentage'],$data[$i]['target_to_be_ach_val'],$data[$i]['target_value_unitr'],
+                                          $data[$i]['target_obj_skew_indicator'],$data[$i]['target_obj_skew_target'],$data[$i]['seg_start_value'],
+                                          $data[$i]['seg_end_value'],$data[$i]['seg_start_percentage'],$data[$i]['seg_end_percentage'],$data[$i]['seg_value_units'],
+                                          $data[$i]['seg_good_start_percentage'],$data[$i]['seg_good_end_percentage'],$data[$i]['seg_bad_start_percentage'],
+                                          $data[$i]['seg_bad_end_percentage'],$data[$i]['seg_vgood_start_percentage'],$data[$i]['seg_vgood_end_percentage'],
+                                          $data[$i]['seg_obj_achvd_value'],$data[$i]['qty_highest_ach_no'],$data[$i]['qty_current_ach_no'],$data[$i]['qty_value_units'],
+                                          $data[$i]['obj_points'],$data[$i]['created_ts'],$data[$i]['status'],$data[$i]['client_name'],$data[$i]['seg_obj_target_value'],
+                                          $data[$i]['seg_obj_target_value_units'],$data[$i]['seg_obj_txt'],$data[$i]['error']];    
+                       }
+                       unset($data);
+                       Excel::create('OBJ_PROGRESS',function($excel) use($objprogressArray){
+                            $excel->setTitle('OBJ_PROGRESS');
+                            $excel->setCreator('Portal')->setCompany('WORXOGO');
+                            $excel->setDescription('OBJ_PROGRESS');
+
+                            $excel->sheet('OBJ_PROGRESS',function($sheet) use($objprogressArray){
+                                $sheet->fromArray($objprogressArray, null, 'A1', false, false); 
+                            }); 
+                       })->export('xlsx');
+             
+                       break;
+                    
+                       
+         case 'BADGES':
+                                $data=  Errbadges::where('upload_id','=',$upload_id)->select('user_name','mobile_no','emp_code','badge_name','badge_img_name','created_ts','status','client_id','error')->get();
+                                $badgeslistArray[]=['USER_NAME','USER_MOBILE_NO','USER_EMPLOYEE_CODE','USER_BADGE_NAME','USER_BADGE_IMAGE_NAME','CREATED_TS','STATUS','CLIENT_NAME','ERROR'];
+                                
+                                for($i=0;$i<count($data);$i++){
+                                if($i==0){
+                                    $client_data=Clients::find($data[$i]['client_id']);
+                                }
+                                $badgeslistArray[]=[$data[$i]['user_name'],$data[$i]['mobile_no'],$data[$i]['emp_code'],$data[$i]['badge_name'],$data[$i]['badge_img_name'],$data[$i]['created_ts'],$data[$i]['status'],$client_data['client_name'],$data[$i]['error']];    
+                                }
+                                unset($data);
+                                Excel::create('Badges',function($excel) use($badgeslistArray){
+                                    $excel->setTitle('Badges');
+                                    $excel->setCreator('Portal')->setCompany('WORXOGO');
+                                    $excel->setDescription('Badges');
+
+                                   $excel->sheet('Badges',function($sheet) use($badgeslistArray){
+                                      $sheet->fromArray($badgeslistArray, null, 'A1', false, false); 
+                                   }); 
+                                })->export('xlsx');
+                                break;
+         case 'OBJECTIVE_LEADERBOARD':
+                                $data=  Errbadges::where('upload_id','=',$upload_id)->select('user_name','mobile_no','emp_code','badge_name','badge_img_name','created_ts','status','client_id','error')->get();
+                                $badgeslistArray[]=['USER_NAME','USER_MOBILE_NO','USER_EMPLOYEE_CODE','USER_BADGE_NAME','USER_BADGE_IMAGE_NAME','CREATED_TS','STATUS','CLIENT_NAME','ERROR'];
+                                
+                                for($i=0;$i<count($data);$i++){
+                                if($i==0){
+                                    $client_data=Clients::find($data[$i]['client_id']);
+                                }
+                                $badgeslistArray[]=[$data[$i]['user_name'],$data[$i]['mobile_no'],$data[$i]['emp_code'],$data[$i]['badge_name'],$data[$i]['badge_img_name'],$data[$i]['created_ts'],$data[$i]['status'],$client_data['client_name'],$data[$i]['error']];    
+                                }
+                                unset($data);
+                                Excel::create('Badges',function($excel) use($badgeslistArray){
+                                    $excel->setTitle('Badges');
+                                    $excel->setCreator('Portal')->setCompany('WORXOGO');
+                                    $excel->setDescription('Badges');
+
+                                   $excel->sheet('Badges',function($sheet) use($badgeslistArray){
+                                      $sheet->fromArray($badgeslistArray, null, 'A1', false, false); 
+                                   }); 
+                                })->export('xlsx');
+                        break;
+         
+         default:
+                    break;
+         
+            
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
