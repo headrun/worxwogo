@@ -1,127 +1,119 @@
-@extends('layout.master')
-@section('libraryCSS')
-<style>
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="{{url()}}/assets/favicon/favicon.ico" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>Worxogo</title>
+  <link rel="manifest" href="/worxogo/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Worxogo">
+  <link rel="apple-touch-icon" href="/worxogo/images/icons/worxogo.png">
+  <meta name="msapplication-TileImage" content="/worxogo/images/icons/worxogo.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
+  
+  
+  <link rel="stylesheet" href="{{url()}}/assets/css/inline.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/font-awesome.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/master.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/leaderboard.css">
+</head>
+<body class="bodydata">
+  <header class="header">
     
-    .circle{
-        width: 75px;
-	height: 75px;
-        border: solid white;
-        -moz-border-radius: 50%;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-        padding: 10px;
-        margin: 10px 10px 20px 10px;
-    }
-    .avatar-user{
-        width: 50px;
-        height: 50px;
-    }
-    .badge-notify-avatar{
-                background:#FE9700 /*orange*/;
-                color:#fff;
-                position:relative;
-                top: 20px;
-                left: -60px;
-    }
-    .arrow-up {
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 15px solid black;
-        display: block;
-    }
-    .arrow-down {
-        width: 0; 
-        height: 0; 
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 15px solid #f00;
-}
-    .color-green{
-        border-bottom-color: green;
-    }
-    .color-orange{
-        border-top-color: #FE9700;/*orange*/
-    }
-    .font-green{
-        color: green;
-    }
-    .font-orange{
-        color: #FE9700;/*orange*/
-    }
-    
-    .table>tbody>tr>td{
-        vertical-align: middle;
-    }
-    
-    .table{
-        border-radius: 10px;
-    }
-    
-    .objective-name{
-        border:solid white 2px; 
-        border-radius: 35%; 
-        float:none!important;
-        color:white;
-        background-color: #FE9700; /*orange */
-        margin-top:-20px;
-    }
-    
-    .toolbaractive{
-        color:#0096A9; /*blue*/
-        background-color: white;
+        <!-- header -->
         
-    }
-    .name{
-        font-weight: bold;
-    }
-</style>
-@stop
-@section('libraryJS')
+        <nav class="navbar navbar-default navbar-static-top" role="navigation"  >
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <div class="navbar-brand">
+                        <label class="pageheading">Objectives <br class="visible-xs">Leaderboard</label>
+                        <h4 class="text-center"><a href="{{url()}}/dashboard/profile" class="headingname"></a></h4>
+                        <h5 class="text-center"><label class="points"></label></h5>
+                    </div>
+                </div>
+                <div class="nav navbar-nav navbar-left">
+                    <a class="" href="{{url()}}/dashboard/index">
+                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="logo-small " />
+                    </a>
+                    <label id="lastupdate"><em>Last update: <br class="visible-xs"><span class='lastupdate'></span></em></label>
+                </div>
+                
+                <div class="nav navbar-nav navbar-right text-right">
+                    <span >
+                    <a class="navbar-right" href="{{url()}}/vault/logout">
+                        <i class="fa fa-sign-out text-right signout" aria-hidden="true" >
+                        <br>
+			<h5 class="dateremaining " >
+                             <span class="monthyear"></span>,<br class="visible-xs">
+                         Days Left:
+                         <span class="daysremaining"> </span>
+                        </h5> 
+                         
+                        </i>
+                    </a>
+                    </span>
+                </div>
+            </div>
+        </nav>
+		<div class="container-fluid">
+			<div class="row leaderboard-toolbar">
+			<h4 class="text-center toolbar "></h4>
+                        <br>
+			</div>
+		</div>
+  </header>
 
-@stop
-
-@section('pageheading')
-Objectives <br class="visible-xs">Leaderboard
-@stop
-
-@section('content')
-<div class="container-fluid">
-
-<div  class="row " style="position:relative;">
+  <main class="main bodydata"  >
+    <div class="container-fluid cards" hidden >
+        
+<div  class="row region" >
     <div class="col-lg-3 col-md-3 col-sm-5 col-xs-6 center-block text-center objective-name " >
       <h5>Leaderboard :  {{Session::get('region')}}</h5>
     </div>
 </div>
-</div>
-<div> 
-    
-    <table class="table" style="background-color: #fff; margin-top:15px">
+       
+    </div>
+    <table class="table" >
         <thead> 
             <tr>
                 <td class="name">
-                    <h4 style="font-weight:bold">Rank</h4>
+                    <h4 class="trdata">Rank</h4>
                 </td>
                 <td class="name">
-                    <h4 style="font-weight:bold">Name</h4>
+                    <h4 class="trdata">Name</h4>
                 </td>
                 <td class="name">
-                    <h4 style="font-weight:bold">Territory</h4>
+                    <h4 class="trdata">Territory</h4>
                 </td>
                 <td class="name">
-                    <h4 style="font-weight:bold" class="text-right">Points</h4>
+                    <h4 class="text-right trdata">Points</h4>
                 </td>
             </tr>
         </thead>
-        @foreach($objleaderboarddata as $leaddata)
-        <tr valign="middle">
-            <td class="name"><h4>{{$leaddata->rank}}</h4></td>
-            <td class="name"><h4>{{$leaddata->user_name}}</h4></td>
-            <td class="name"><h4>{{$leaddata->territory}}</h4></td>
-            <td><h4 class=" text-right ">{{$leaddata->points}}</h4></td>
-        </tr>
-        @endforeach
-    </table>
-</div>
-@stop
+	
+        </table>
+  </main>
+    
+  
+  
+  
+  <div class="loader">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div>
+
+  <!-- Insert link to app.js here -->
+  <script> var apiurl= "{{url()}}";</script>
+  <script src="{{url()}}/assets/js/jquery.js" ></script>
+  <script src="{{url()}}/assets/js/bootstrap.min.js" ></script>
+  <script type="text/javascript" src="{{url()}}/assets/js/loader.js"></script>
+  <script src="{{url()}}/assets/js/leaderboard.js" async ></script>
+  
+</body>
+</html>

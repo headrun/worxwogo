@@ -1,0 +1,21 @@
+#mobileNumber,
+#password{
+    cursor: text;
+    background-color: #fff;
+}
+
+.login-box {
+    margin-top: 5%;
+    float: none !important;
+    background-color: #00BBCF;
+    padding: 15px;
+    border-radius: 50px;
+    box-shadow: 10px 10px 15px #888888;
+}
+
+.clientlogo{
+	padding:20px;
+}
+.remove, .passremove{
+	display:none;
+}

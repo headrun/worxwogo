@@ -1,0 +1,323 @@
+.logo-brand{
+	height:90px;
+	padding:5px;
+}
+
+.navbar-default {
+    background-color: white;
+    //border-color: #00BBD3 !important;
+}
+
+
+body{
+	background-color:#f5f5f5;
+}
+
+.card{
+	background-color:white;
+	margin: 20px 0px 20px 0px;
+    border-radius: 5px;
+    box-shadow: 6px 6px 3px #888888;
+    cursor: pointer;
+  
+}
+.card-block {
+     padding: 10px;
+ }
+ .card-title {
+     
+     color: black;
+     margin-top:20px;
+ }
+
+.footerbutton {
+	display:inline;
+}
+
+.footer {
+	background-color: #00BBD3;
+	padding:20px;
+	margin-top:20px;
+	color:lightslategrey;
+	cursor: pointer;
+}
+
+.active {
+   color:white;
+   border-bottom:solid 2px white; 
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+  color:#337ab7;
+  background-color:white!important;
+}
+.profilebackcolor{
+  color:black;
+
+}
+.navbar{
+	margin-bottom:0px;
+}
+
+.navbar-header{
+  margin:0px!important;
+}
+
+.navbar-left{
+  margin-left:0px;
+  margin-right:0px;
+}
+
+
+
+.navbar-collapse.collapse {
+  display: block!important;
+}
+
+.navbar-nav>li, .navbar-nav {
+  float: left !important;
+}
+
+.navbar-nav.navbar-right:last-child {
+  margin-right: -15px !important;
+}
+
+.navbar-right {
+  float: right!important;
+}
+.fa-sign-out{
+  margin:5px;
+  padding:5px;
+}
+
+
+
+@media(max-width:400px){
+  .heading{
+    font-size:12px;
+    margin:10px;
+    font-weight: bold;
+    padding:5px;
+  }
+  .name{
+    font-size:12px;
+  }
+  .profiletable{
+    font-size: 12px;
+  }
+  .fa-4x{
+    font-size:2em !important;
+    margin-top:-2px
+  }
+  .logo-brand{
+    height:45px;
+    margin-top:5px;
+  }
+  .percentagefields{
+    font-size:9px;
+  }
+  .tooltip{
+     width:25px!important;
+    top:-15px !important;
+    position:relative;
+    left:50%!important;
+    margin-left:-15px;
+  }
+.tooltip > .tooltip-inner {background-color: orange; padding:0px; color:rgb(23,44,66);margin-top:-15px; text-align:center;color:white;  }
+.popOver + .tooltip > .tooltip-arrow {  border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #eebf3f;}
+
+  .fa-user{
+    display:none;
+  }
+  .fa-3x{
+    font-size:2em ;
+  }
+  .footer{
+    padding:10px!important;
+  }
+  .obj_dropdowndiv{
+    margin-left:0px;
+  }
+  .soimg{
+    font-size:small;
+  }
+  .sopoints{
+    font-size:xx-small;
+  }
+  .sotoolbar{
+    height:50px;
+  }
+  .objpoints{
+    margin-top:15px;
+    font-size:x-large;
+  }
+  .chart{
+    margin-left:25px;
+  }
+  .milestonediv{
+    font-size:10px;
+    margin-left: 0px!important;
+  }
+  .tooltip > .tooltip-inner {background-color: orange; padding:5px 10px; color:rgb(23,44,66);margin-top:-29px; text-align:center;color:white;  }
+  .popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+
+
+}
+@media(min-width:400px) {
+
+.fa-user{
+    display:none;
+  }
+.tooltip{
+  top:-15px !important;
+  position:relative;
+  width:35px;
+  left:50%!important;
+  
+  margin-left:-25px;
+
+}
+.tooltip > .tooltip-inner {background-color: orange; padding:5px 15px; color:rgb(23,44,66);margin-top:-30px; text-align:center;color:white;  }
+.popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+
+.tooltip{
+  padding:0px 10px;
+  margin-top:15px;
+}
+
+ .heading{
+  font-size: 20px;
+ font-weight: bold;
+  margin-top:8px;
+ } 
+ .logo-brand{
+    height:50px;
+    
+  }
+  .fa-4x{
+    font-size:2em !important;
+    margin-top:-2px
+  }
+  .fa-3x{
+    font-size:2.5em ;
+  }
+  .footer{
+    padding:12px!important;
+  }
+}
+@media(min-width:768px) {
+.tooltip{
+  top:-15px !important;
+  position:relative;
+  width:50px;
+  left:50%!important;
+  
+  margin-left:-25px;
+
+}
+.fa-user{
+    display:inline-block;
+  }
+.fa-sign-out{
+  margin:5px;
+  padding:5px;
+}
+.leaderboardpoints{
+  width:70%;
+  float:right;
+  
+}
+ .milestonediv{
+    font-size:10px;
+    margin-left: 0px!important;
+  }
+
+
+.logo-brand{
+    height:60px;
+    
+}
+.heading{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top:20px;
+ }
+
+.fa-4x{
+    font-size:2.5em !important;
+    margin-top:2px
+}
+.fa-3x{
+    font-size:2.5em ;
+}
+ .footer{
+    padding:12px!important;
+  }
+.tooltip > .tooltip-inner {background-color: orange; padding:5px 15px; color:rgb(23,44,66);margin-top:-30px; text-align:center;color:white;  }
+.popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+
+}
+
+@media(min-width:992px) {
+
+.fa-sign-out{
+  margin:10px;
+  padding:5px;
+}
+
+.logo-brand{
+    height:70px;
+    
+}
+
+.tooltip > .tooltip-inner {background-color: orange; padding:5px 15px; color:rgb(23,44,66);margin-top:-30px; text-align:center;color:white;  }
+.popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+
+.heading{
+  font-size: 20px;
+  font-weight: bold;
+  margin-top:25px;
+ } 
+ .footer{
+    padding:12px!important;
+  }
+
+}
+@media(min-width:1200px) {
+.heading{
+  font-size: 20px;
+  margin-top:30px;
+  font-weight: bold;
+ } 
+ .tooltip > .tooltip-inner {background-color: orange; padding:5px 15px; color:rgb(23,44,66);margin-top:-30px; text-align:center;color:white;  }
+.popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+
+.fa-4x{
+    font-size:4em !important;
+    margin-top:5px
+}
+.fa-3x{
+    font-size:2.5em ;
+}
+.footer{
+    padding:12px!important;
+ }
+ .chart{
+    margin-left:-10px;
+  }
+
+}
+
+
+.chartmiddlefield{
+  margin-right:-9px;
+}
+
+
+body{
+  overflow-x:hidden;
+}
+
+.points{
+  font-size:14px !important;
+}

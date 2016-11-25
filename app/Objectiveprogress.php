@@ -91,7 +91,15 @@ class Objectiveprogress extends Model
     
     static public function getobjectivedata(){
         return Objectiveprogress::
-                where('mobile_no','=',Session::get('mobileNumber'))
+                where('emp_code','=',Session::get('empId'))
+                ->where('client_id','=',Session::get('clientId'))
+                ->where('status','=','A')
+                ->get();
+    }
+
+    static public function getobjectivedataforso($so_id){
+        return Objectiveprogress::
+                where('emp_code','=',$so_id)
                 ->where('client_id','=',Session::get('clientId'))
                 ->where('status','=','A')
                 ->get();

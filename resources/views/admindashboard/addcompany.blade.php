@@ -9,28 +9,102 @@
 
 @section('libraryJS')
 <script>
+    
+$(document).ready(function(){
+    $.fn.serializefiles = function() {
+    var obj = $(this);
+    /* ADD FILE TO PARAM AJAX */
+    var formData = new FormData();
+    $.each($(obj).find("input[type='file']"), function(i, tag) {
+        $.each($(tag)[0].files, function(i, file) {
+            formData.append(tag.name, file);
+        });
+    });
+    formData.append('company_name', $('#companyName').val());
+    formData.append('program_name', $('#programName').val());
+    formData.append('status', $('#formstatus').val());
+    var params = $(obj).serializeArray();
+    $.each(params, function (i, val) {
+        formData.append(val.name, val.value);
+    });
+    return formData;
+    };
+    
+    $.fn.editserializefiles = function() {
+    var obj = $('#edituploadform');
+    /* ADD FILE TO PARAM AJAX */
+    var formData = new FormData();
+    $.each($(obj).find("input[type='file']"), function(i, tag) {
+        $.each($(tag)[0].files, function(i, file) {
+            formData.append(tag.name, file);
+        });
+    });
+    formData.append('company_id', $('.company_id').val());
+    formData.append('company_name', $('.clientname').val());
+    formData.append('program_name', $('.programName').val());
+    formData.append('status',      $('.formstatus').val());
+    var params = $(obj).serializeArray();
+    $.each(params, function (i, val) {
+        formData.append(val.name, val.value);
+    });
+    return formData;
+    };
+    
+    $('#uploadform').submit(function(e){
+         var fileExtension = ['png', 'jpg'];
+        e.preventDefault();
+        if ($.inArray($('#uploadextract').val().split('.').pop().toLowerCase(), fileExtension) === -1) {
+            $('.msgdiv').html("<p class='uk-alert uk-alert-warning'>please select proper file (Allowerd only jpg, png) </p>");
+        }else{
+             $('#addclient').attr('disabled','disabled');
+        $.ajax({
+			type: "POST",
+                        url: "{{URL::to('/quick/addClient')}}",
+                        data: $('#uploadform').serializefiles(),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+			dataType: 'json',
+			success: function(response){
+                                 if(response.status==='success'){   
+				    window.location.reload(1);
+                                 }
+                        }
+            });
+        }
+    });
+    });
+    
+    
 function editclient(id,name,status,programname){
        $('.modal-dialog').removeClass('modal-sm');
        $('.modal-dialog').addClass('modal-md');
        $('.modal-title').html("Edit Client Data");
        $('.modal-body').empty();
-       $('.modal-body').html("<div class='msg' style='padding:1px;'></div><label style='width:50%'>Client Name</label><label style='width:50%'>Status</label><input type='text' class='form-control clientname' style='width:50%;display:inline-block;padding:5px;' value='"+name+"'/>"+
+       $('.modal-body').html("<form id='edituploadform' action='' enctype='multipart/form-data' method='post'>"+
+                             "<input type='hidden' name='company_id' class='company_id' value='"+id+"'>"+
+                             "<div class='msg' style='padding:1px;'></div><label style='width:50%'>Client Name</label><label style='width:50%'>Status</label><input type='text' class='form-control clientname' style='width:50%;display:inline-block;padding:5px;' value='"+name+"'/>"+
                              "<select class='form-control status' style='padding:5px;width:50%;display:inline-block' value='"+status+"'>"+
                              " <option value='A'>Active</option>"+
                              "<option value='N'>Inactive</option>"+
-                             "</select><br><label style='width:100%'>Program Name</label><input type='text' class='form-control programName' style='width:100%;display:inline-block;padding:5px;' value='"+programname+"'/>");
+                             "</select><br><label style='width:100%'>Program Name</label><input type='text' class='form-control programName' style='width:100%;display:inline-block;padding:5px;' value='"+programname+"'/>"+
+                             "<label style='width:100%'>Company Logo</label><input type='file' name='edituploadextract' id='edituploadextract' class='form-control' required>"+
+                             "</form>");
        $('.status').val(status);
-       $('.modal-footer').html("<center><button class='btn btn-primary edit'>Save</button><button class='btn' data-dismiss='modal'>Cancel</button></center>");
+       $('.modal-footer').html("<center><button type='submit' class='btn btn-primary edit'>Save</button><button class='btn' data-dismiss='modal'>Cancel</button></center>");
        $('#delete').modal('show');
        $('.edit').click(function(){
            console.log('edit');
             $.ajax({
 			type: "POST",
                         url: "{{URL::to('/quick/editCompanyById')}}",
-                        data: {'company_id':id,'company_name':$('.clientname').val(),'status':$('.status').val(),'program_name':$('.programName').val()},
+                        data: $('#edituploadform').editserializefiles(),
+                        cache: false,
+                        contentType: false,
+                        processData: false,
 			dataType: 'json',
 			success: function(response){
-                            //console.log(response);
+                            console.log(response);
                                  if(response.status==='success'){
                                      $('.msg').addClass('btn-success');
                                      $('.msg').html("<h4> Success</h4>");
@@ -71,51 +145,7 @@ function editclient(id,name,status,programname){
         });
     }
     
-    $(document).ready(function(){
-    $.fn.serializefiles = function() {
-    var obj = $(this);
-    /* ADD FILE TO PARAM AJAX */
-    var formData = new FormData();
-    $.each($(obj).find("input[type='file']"), function(i, tag) {
-        $.each($(tag)[0].files, function(i, file) {
-            formData.append(tag.name, file);
-        });
-    });
-    formData.append('company_name', $('#companyName').val());
-    formData.append('program_name', $('#programName').val());
-    formData.append('status', $('#formstatus').val());
-    var params = $(obj).serializeArray();
-    $.each(params, function (i, val) {
-        formData.append(val.name, val.value);
-    });
-    return formData;
-    };
-
     
-    $('#uploadform').submit(function(e){
-         var fileExtension = ['png', 'jpg'];
-        e.preventDefault();
-        if ($.inArray($('#uploadextract').val().split('.').pop().toLowerCase(), fileExtension) === -1) {
-            $('.msgdiv').html("<p class='uk-alert uk-alert-warning'>please select proper file (Allowerd only jpg, png) </p>");
-        }else{
-             $('#addclient').attr('disabled','disabled');
-        $.ajax({
-			type: "POST",
-                        url: "{{URL::to('/quick/addClient')}}",
-                        data: $('#uploadform').serializefiles(),
-                        cache: false,
-                        contentType: false,
-                        processData: false,
-			dataType: 'json',
-			success: function(response){
-                                 if(response.status==='success'){   
-				    window.location.reload(1);
-                                 }
-                        }
-            });
-        }
-    });
-    });
     
 </script>
 @stop

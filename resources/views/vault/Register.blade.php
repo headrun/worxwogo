@@ -9,6 +9,16 @@
       <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
       <link rel="stylesheet" href="{{url()}}/assets/spinners/mk-spinners.css">
       <link rel="stylesheet" href="{{url()}}/assets/css/register.css">
+      
+      <link rel="manifest" href="/worxogo/manifest.json">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black">
+      <meta name="apple-mobile-web-app-title" content="Worxogo">
+      <link rel="apple-touch-icon" href="/worxogo/images/icons/worxogo.png">
+      <meta name="msapplication-TileImage" content="/worxogo/images/icons/worxogo.png">
+      <meta name="msapplication-TileColor" content="#2F3BA2">
+  
+  
       <!-- JS -->
       <script>var jqueryurl="{{url()}}";</script>
       <script src="{{url()}}/assets/js/jquery.js"></script>

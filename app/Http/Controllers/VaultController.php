@@ -47,6 +47,37 @@ class vaultController extends Controller
                 $client_data=Clients::find($inputs['client_id']);
                 return Redirect::to ('/'.$client_data['client_name']);
             }
+        }elseif(isset($inputs['mobileNumber']) && isset($inputs['client_id']) && 
+            User::where('mobilenumber','=',$inputs['mobileNumber'])
+                      ->where('user_type','=','SUPERVISOR')
+                      ->where('client_id','=',$inputs['client_id'])
+                      ->where('status','=','A')
+                      ->exists()){
+
+            $user_data=User::where('mobilenumber','=',$inputs['mobileNumber'])
+                    ->where('user_type','=','SUPERVISOR')
+                    ->where('client_id','=',$inputs['client_id'])
+                    ->where('status','=','A')
+                    ->get();
+            $user_data=$user_data[0];
+            if(Hash::check($inputs['password'],$user_data['password'])){
+                Auth::loginUsingId($user_data['id']);
+                Session::put('userId', $user_data->id);
+                Session::put('clientId', $user_data->client_id);
+                Session::put('empId', $user_data->emp_code);
+                Session::put('name', $user_data->name);
+                Session::put('points', $user_data->user_points);
+                Session::put('mobileNumber', $user_data->mobilenumber);
+                Session::put('userType', $user_data->user_type);
+                Session::put('region', $user_data->region);
+                Session::put('territory', $user_data->territory);
+                return redirect()->intended('/dashboard/supervisorindex');
+            }else{
+                Session::flash('message', 'Invalid Mobile No or Password.');
+                $client_data=Clients::find($inputs['client_id']);
+                return Redirect::to ('/'.$client_data['client_name']);
+            }
+
         }else{
             $client_data=Clients::find($inputs['client_id']);
             Session::flash('message', 'Invalid Mobile No or Password.');
@@ -59,16 +90,23 @@ class vaultController extends Controller
             if(Session::get('mobileNumber') && (Session::get('userType')=='USER') ){
                 return Redirect::action('DashboardController@index');
                 
+            }elseif(Session::get('mobileNumber') && (Session::get('userType')=='SUPERVISOR')){
+
+            return redirect()->intended('/dashboard/supervisorindex');
+        
             }else{
                 if(Clients::where('client_name','=',$company_name)->exists()){
                     $client_data=  Clients::where('client_name','=',$company_name)->get();
                     $client_data=$client_data[0];
+                    if($company_name!= $client_data->client_name){
+                        return Redirect::to('/'.$client_data->client_name);
+                    }
                     $viewData = array('client_data');
                     return view('/vault/Register',compact($viewData));/*,compact($viewData)*/
 
                 }else{
                     //show company not found
-                    return "Company not Registered";
+                    return view('/cmpnotexist');
                 }
         
         }
@@ -79,8 +117,12 @@ class vaultController extends Controller
         if(Session::get('mobileNumber') && (Session::get('userType')=='USER') ){
                 return Redirect::action('DashboardController@index');
                 
-            }else{
-                  return "Please use xg/companyname";
+        }elseif(Session::get('mobileNumber') && (Session::get('userType')=='SUPERVISOR')){
+
+            return redirect()->intended('/dashboard/supervisorindex');
+        
+        }else{
+                  return view('/worxogo');
             }
     }
     
@@ -110,14 +152,18 @@ class vaultController extends Controller
         $user_type=Session::get('userType');
         $client_data=Clients::find(Session::get('clientId'));
         Session::flush();
-	Session::flash('message', 'You have successfully logged out of the system.');
-	if($user_type=='ADMIN'){
+	      Session::flash('message', 'You have successfully logged out of the system.');
+	      if($user_type=='ADMIN'){
             return Redirect::action('VaultController@adminLogin');   
         }else if($user_type=='USER'){
             $destination='/'.$client_data['client_name'];
             return Redirect::to($destination);
+        }elseif($user_type=='SUPERVISOR'){
+            $destination='/'.$client_data['client_name'];
+            return Redirect::to($destination);
         }
-        
+
+        return view('/vault/companyname');    
     }
     
     public function checkMobileNoforRegistration(Request $request){
@@ -125,17 +171,17 @@ class vaultController extends Controller
         if(isset($inputs['mobileNumber']) &&
            User::where('client_id','=',$inputs['client_id'])
                 ->where('mobilenumber','=',$inputs['mobileNumber'])
-                ->where('password','=','')
+                ->where('password','=',null)
                 ->where('status','=','A')
                 ->exists()  ){
             $user_data=User::where('client_id','=',$inputs['client_id'])
                             ->where('mobilenumber','=',$inputs['mobileNumber'])
-                            ->where('password','=','')
+                            ->where('password','=',null)
                             ->where('status','=','A')
                             ->select('id')->get();
             $user_data=$user_data[0];
             $user=User::find($user_data['id']);
-            $string = str_random(6);
+            $string = rand(000000, 999999);
             
             $msg="Dear User, you are trying to Register your A/c. Your OTP is ".$string." DONT SHARE WITH ANYONE";
              //file_get_contents("http://smshorizon.co.in/api/sendsms.php?user=LM-WRX&apikey=tVzFTcAxyXiWhh3Rs7wb&mobile=".(int)$inputs['mobileNumber']."&message=".$msg."&senderid=WRXOGO&type=txt",false);
@@ -149,7 +195,7 @@ class vaultController extends Controller
             $user->otp=$string;
             $user->save();
             
-            return Response::json(array('status'=>'success'));
+            return Response::json(array('status'=>'success','data'=>$output));
             
         }else{
             return Response::json(array('status'=>'failure'));
@@ -163,6 +209,7 @@ class vaultController extends Controller
         if(isset($inputs['mobileNumber']) && isset($inputs['otppassword']) &&
            User::where('client_id','=',$inputs['client_id'])
                 ->where('mobilenumber','=',$inputs['mobileNumber'])
+                ->where('password','=',null)
                 ->where('otp','=',$inputs['otppassword'])
                 ->where('status','=','A')
                 ->exists()  ){
@@ -183,14 +230,14 @@ class vaultController extends Controller
            User::where('client_id','=',$inputs['client_id'])
                 ->where('mobilenumber','=',$inputs['mobileNumber'])
                 ->where('otp','=',$inputs['otppassword'])
-                ->where('password','=','')
+                ->where('password','=',null)
                 ->where('status','=','A')
                 ->exists()  ){
             
             $user_data=User::where('client_id','=',$inputs['client_id'])
                              ->where('mobilenumber','=',$inputs['mobileNumber'])
                              ->where('otp','=',$inputs['otppassword'])
-                             ->where('password','=','')
+                             ->where('password','=',null)
                              ->where('status','=','A')
                              ->select('id')->get();
             $user_data=$user_data[0];
@@ -248,7 +295,7 @@ class vaultController extends Controller
             $user_data=$user_data[0];
             $user=User::find($user_data['id']);
             
-            $string = str_random(6);
+            $string = rand(000000, 999999);
             $msg="Dear User, you are trying to Change Password for  your A/c. Your OTP is ".$string." DONT SHARE WITH ANYONE";
             $msg=urlencode($msg);
             

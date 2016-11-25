@@ -1,339 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="shortcut icon" type="image/x-icon" href="{{url()}}/assets/favicon/favicon.ico" />
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-        <!-- CSS -->
-        <link rel="stylesheet" href="{{url()}}/assets/spinners/mk-spinners.css">
-
-        <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
-        
-        <style>
-                          @media(max-width:767px){
-                h4 {
-                font-size: 4vw;
-                }
-                h5{
-                font-size: 3vw;
-                }
-                td{
-                font-size: 2.5vw;
-                }
-                .img-circle{
-                    margin-top: 14px;
-                    width:80%;
-                }
-                .fa-sign-out{
-                    font-size:2.5em!important;
-                    padding:4px !importnat;
-                    
-                }
-                
-                .badges{
-                    width:75px!important;
-                    height:75px!important;
-                }
-                
-                .page-heading{
-                    font-size:12px; 
-                }
-                
-                .page-name{
-                    font-size:15px;
-                }
-                .hbrand{
-                    height:105px;
-                    width:105px;
-                    border-radius: 50%;
-                    border: solid white 3px;
-                }
-                
-                .navbar-collapse.collapse {
-                    display: block!important;
-                }
-
-                .navbar-nav>li, .navbar-nav {
-                    float: left !important;
-                }
-
-                .navbar-nav.navbar-right:last-child {
-                    margin-right: -15px !important;
-                }
-                #lastupdate{
-                    margin-top:62px;
-                    margin-left:25px;
-                    font-size:10px;
-                }
-                
-            }
-            @media(min-width:768px){
-                h4 {
-                font-size: 3vw;
-                }
-                h5{
-                font-size: 2.5vw;
-                }
-                td{
-                font-size: 1.5vw;
-                }
-                .img-circle{
-                    margin-top: 10px;
-                    width:60%;
-                }
-                
-                .fa-sign-out{
-                    font-size:4em;
-                    padding:8px;
-                    
-                }
-                .page-heading{
-                    font-size:12px; 
-                }
-                
-                .page-name{
-                    font-size:15px;
-                }
-                
-                .hbrand{
-                    height:105px;
-                    width:180px;
-                    border-radius: 50%;
-                    border: solid white 3px;
-                }
-                .navbar-nav.navbar-right:last-child {
-                    margin-right: 0px !important;
-                }
-                #lastupdate{
-                    margin-top:100px;
-                    margin-left:45px;
-                    font-size:12px;
-                }
- 
-            }
-            @media(min-width:992px){
-                h4 {
-                font-size: 1.4vw;
-                }
-                h5{
-                font-size: 1.2vw;
-                }
-                td{
-                font-size: 1vw;
-                }
-                .img-circle{
-                    margin-top: 10px;
-                    width:50%;
-                }
-                .fa-sign-out{
-                    font-size:4em;
-                    padding:8px;
-                    
-                }
-                .hbrand{
-                    height:105px;
-                    width:190px;
-                    border-radius: 50%;
-                    border: solid white 4px;
-                }
-                #lastupdate{
-                    margin-top:100px;
-                    margin-left:45px;
-                    font-size:12px;
-                }
-            }
-            @media(min-width:1200px){
-                h4 {
-                font-size: 1.5vw;
-                }
-                h5{
-                font-size: 1.3vw;
-                }
-                td{
-                font-size: 1vw;
-                }
-                .hbrand{
-                    height:105px;
-                    width:200px;
-                    border-radius: 50%;
-                    border: solid white 5px;
-                }
-                .fa-sign-out{
-                    font-size:5em;
-                    padding:8px;
-                    
-                }
-
-                
-                .page-heading{
-                    font-size:15px; 
-                }
-                
-                .page-name{
-                    font-size:13px;
-                }
-                
-                #lastupdate{
-                    margin-top:100px;
-                    margin-left:45px;
-                    font-size:12px;
-                }
-                
-            }
-            
-            .navbar-default{
-                background-color:#00BBD3;
-                border-color:#00BBD3 !important;
-            }
-            .navbar{
-                    min-height: 130px;
-                    margin-bottom:0px!important;
-                }
-            .active{
-                color: black;
-            }
-            
- 
-            .navbar-right {
-                float: right!important;
-            }
-
-            .navbar-brand{
-                position: absolute;
-                width: 100%;
-                left: 0;
-                text-align: center;
-                margin:0 auto;
-            }
-            .navbar-toggle {
-                z-index:3;
-            }
-
-
-            .border{
-                border:solid black 5px; padding:10px;
-            }
-            label{
-                color:black;
-            }
-            
-            /*for all*/
-            @media (min-width:0px) and (max-width:1500px) {
-                #exTab3 .nav-pills > li > a {
-                     border-radius: 4px 4px 0 0 ;   
-                }   
-
-                #exTab3 .tab-content {
-                    color : black;
-                    background-color: #fff;
-                    padding : 5px 15px;
-                    border-radius:5px;
-                    box-shadow:6px 6px 3px #888888;
-                }
-                .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-                    background-color: white;
-                    color:#337ab7;
-                }
-                .link{
-                    color:#000;
-                }
-            }
-            .leaderboard-toolbar{
-                background-color: #0096A9 /*blue*/;
-                color:#fff;
-            }
-        </style>
-          <!-- JS -->
-        <script src="{{url()}}/assets/js/jquery.js"></script>
-        <script src="{{url()}}/assets/js/bootstrap.min.js"></script>
-        <script>
-  /*
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-71192393-4', 'auto');
-  ga('set', 'userid', "{{Session::get('empId')}}");
-  ga('set', 'userId', "{{Session::get('empId')}}");
-  ga('set', 'dimension1', "{{Session::get('empId')}}");
-  ga('send', 'pageview');
+<html>
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="{{url()}}/assets/favicon/favicon.ico" />
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <title>Worxogo</title>
+  <link rel="manifest" href="/worxogo/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Worxogo">
+  <link rel="apple-touch-icon" href="/worxogo/images/icons/worxogo.png">
+  <meta name="msapplication-TileImage" content="/worxogo/images/icons/worxogo.png">
+  <meta name="msapplication-TileColor" content="#2F3BA2">
   
-  */
-$(window).on('load', function() {
-                
-                $('#preloader').modal({backdrop: 'static', keyboard: false});
-                
-                setTimeout(function(){
-                    $("#preloader").fadeOut(function(){
-                        $('.modal-backdrop.in').css('opacity','0');
-                        $('#preloader').modal('hide');
-                    });
-                },200);
-                
-});
-
-        </script>
-
-    </head>
-    <body class="" style="background-color:#F0F0F0">
-                
-        <div id ="preloader" class="modal">
-            <div class="mk-spinner-centered mk-spinner-ring"></div>
-        </div>
-
-         <!-- header -->
-        <nav class="navbar navbar-default navbar-static-top" role="navigation"  >
+  
+  <link rel="stylesheet" href="{{url()}}/assets/css/inline.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/font-awesome.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/master.css">
+  <link rel="stylesheet" href="{{url()}}/assets/css/profile.css">
+</head>
+<body class="bodydata">
+  <header class="header">
+    
+        <!-- header -->
+        
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <div class="navbar-brand">
-                        <label style="color:white;"></label>
-                        <h4 class="text-center" style="color:white;">Profile Info   
-                        </h4>
-                        
+                        <label class="pageheading"></label>
+                        <h4 class="text-center"><label  class="headingname">Profile Info</label></h4>
+                        <h5 class="text-center"><label class=""></label></h5>
                     </div>
                 </div>
                 <div class="nav navbar-nav navbar-left">
                     <a class="" href="{{url()}}/dashboard/index">
-                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}"" class="visible-xs " height="63px" width="100px" style="margin-top:0px;border:solid 2px black;position:absolute;"/>
-                        <img src="{{url()}}/assets/img/logo/{{Session::get('clientId')}}{{$client_data['client_logo_ext']}}"" class="hidden-xs" height="71px" width="175px" style="margin:25px;border:solid 2px black;position:absolute;"/>
+                        <img src="{{url()}}/assets/img/logo/{{$client_data['id']}}{{$client_data['client_logo_ext']}}" class="logo-small " />
                     </a>
-                    <label id="lastupdate" style="color:white"><em>Last update: <br class="visible-xs">{{ date('d-m-Y',strtotime($client_last_updated['created_at']))}} </em></label>
+                    <label id="lastupdate"><em>Last update: <br class="visible-xs"><span class='lastupdate'></span></em></label>
                 </div>
                 
                 <div class="nav navbar-nav navbar-right text-right">
                     <span >
                     <a class="navbar-right" href="{{url()}}/vault/logout">
-                        <i class="fa fa-sign-out text-right" aria-hidden="true" style="position: relative;">
-                         <br>
-                         <h4 style="cursor:none; color:white;">
-                             {{ date('M Y')}},<br class="visible-xs">
+                        <i class="fa fa-sign-out text-right signout" aria-hidden="true" >
+                        <br>
+			<h5 class="dateremaining " >
+                             <span class="monthyear"></span>,<br class="visible-xs">
                          Days Left:
-                        <?php 
-                            $daysRemaining = (int)date('t',strtotime(date("Y-m-d")) ) - (int)date('j', strtotime(date("Y-m-d")));
-                            echo $daysRemaining;
-                        ?>
-                        </h4>
+                         <span class="daysremaining"> </span>
+                        </h5> 
+                         
                         </i>
                     </a>
                     </span>
                 </div>
             </div>
         </nav>
-<div class="row leaderboard-toolbar">
-    <h4 class="text-center ">{{$client_data['program_name']}}</h4><br>
-</div>
+		<div class="container-fluid">
+			<div class="row leaderboard-toolbar">
+			<h4 class="text-center toolbar "></h4>
+			</div>
+		</div>
+  </header>
 
-        <!-- header -->
-
-        
-        
-        <br>
-        
-        
-        <h4 class="text-center">{{$userdata->name}}</h4>
-            <div id="exTab3" class="container">	
+  <main class="main "  >
+    <div class="container-fluid cards" hidden >
+       <br>
+        <h4 class="text-center username"></h4>
+	<div id="exTab3" class="container">	
                 <ul  class="nav nav-pills">
                     <li class="active">
                         <a  class="link" href="#1b" data-toggle="tab"><h5>Badges</h5></a>
@@ -346,24 +84,15 @@ $(window).on('load', function() {
 
 		<div class="tab-content clearfix">
                     <div class="tab-pane active" id="1b">
-                        @if(!count($badges_data))
-                        <h4>You are still to Win your 1st badge</h4>
-                        @else
-                        <div class="row">
-                            @foreach($badges_data as $badge)
-                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4 text-center">
-                                <img class="badges" src="{{url()}}/assets/img/Badges/{{$badge->badge_img_name}}" style="height:150px;width:150px;"/>
-                                <br>
-                                <h5 class="text-center" style="font-weight:lighter;">{{$badge->badge_name}}</h5>
-                            </div>
-                            @endforeach
+                        <h4 class="stillbadge">You are still to Win your 1st badge</h4>
+                        <div class="row badgeimgs">
                         </div>
-                        @endif
+                       
                     </div>
                     <div class="tab-pane" id="2b">
                         <h5>How to Earn Points ?</h5>
-                        <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;"> 
-                            <thead style="background-color:#6F6F6F;color:white;">
+                        <table class="table-condensed table-responsive" width="100%" > 
+                            <thead class="tableheading">
                                 <tr>
                                 <th>Sr</th>
                                 <th>Activity</th>
@@ -378,13 +107,13 @@ $(window).on('load', function() {
                                     <td>Every % achievement of MSP (in Rs. Lacs) against the monthly target</td>
                                     <td class="text-right">20</td>
                                 </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td rowspan="2">2</td>
                                     <td rowspan="2">Category Mix – Truck (Qty)</td>
                                     <td>If the percentage target achievement for the truck category is between 70-89%</td>
                                     <td class="text-right">200</td>
                                 </tr>
-                                    <tr style="background-color:lightgrey;">
+                                    <tr class="color-lightgrey">
                                         <td>If the percentage target achievement for the truck category is greater than 90%</td>
                                         <td class="text-right">500</td>
                                     </tr>
@@ -398,7 +127,7 @@ $(window).on('load', function() {
                                         <td>If the percentage target achievement for the non-truck category is greater than 70%</td>
                                         <td class="text-right">500</td>
                                     </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td rowspan="2">4</td>
                                     <td rowspan="2">Category Mix – 2/3 Wheelers (Qty)</td>
                                     <td>If the percentage target achievement for the 2/3 wheeler category is between 70-89%</td>
@@ -414,7 +143,7 @@ $(window).on('load', function() {
                                     <td>For every Petro or OE dealer appointed</td>
                                     <td class="text-right">1000</td>
                                 </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td>6</td>
                                     <td>New/PTP/Steel Wheel</td>
                                     <td>For every New, PTP or Steel Wheel dealer appointed</td>
@@ -426,13 +155,13 @@ $(window).on('load', function() {
                                     <td>Every % increment in SAS against the year beginning value</td>
                                     <td class="text-right">100</td>
                                 </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td rowspan="2">8</td>
                                     <td rowspan="2">PJP</td>
                                     <td>If PJP adherence on a daily basis is between 80-89%</td>
                                     <td class="text-right">50</td>
                                 </tr>
-                                    <tr style="background-color:lightgrey;">
+                                    <tr class="color-lightgrey">
                                         <td>If PJP adherence on a daily basis is between 90-100%</td>
                                         <td class="text-right">100</td>
                                     </tr>
@@ -460,34 +189,34 @@ $(window).on('load', function() {
                         
                     </div>
                     <div class="tab-pane" id="3b">
-                        <table class="table-condensed table-responsive" width="100%" style="border-radius:5px;">
+                        <table class="table-condensed table-responsive" width="100%">
                             <thead>
-                                <tr style="background-color:#6F6F6F;color:white;">
+                                <tr class="tableheading color-white">
                                     <th>sr</th>
                                     <th>Particular</th>
                                     <th>Detail</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr style="">
+                                <tr >
                                     <td>1</td>
                                     <td>Mobile-Number</td>
-                                    <td>{{$userdata->mobilenumber}}</td>
+                                    <td class="mobileno"></td>
                                 </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td>2</td>
                                     <td>Job-Role</td>
-                                    <td>{{$userdata->designation}}</td>
+                                    <td class="designation"></td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
                                     <td>Territory</td>
-                                    <td>{{$userdata->territory}}</td>
+                                    <td class="territory"></td>
                                 </tr>
-                                <tr style="background-color:lightgrey;">
+                                <tr class="color-lightgrey">
                                     <td>4</td>
                                     <td>Region</td>
-                                    <td>{{$userdata->region}}</td>
+                                    <td class="region"></td>
                                 </tr>
                             </tbody>
                         </table> 
@@ -497,7 +226,29 @@ $(window).on('load', function() {
                 </div>
             </div>
             <br><br>
+    </div>
+  </main>
+    
+<badge hidden>
+    <div class=" badgetemplate col-lg-3 col-md-4 col-sm-4 col-xs-4 text-center">
+        <img class="badges"  />
+        <br>
+        <h5 class="text-center badgename" ></h5>
+    </div>
+</badge>
 
+  <div class="loader">
+    <svg viewBox="0 0 32 32" width="32" height="32">
+      <circle id="spinner" cx="16" cy="16" r="14" fill="none"></circle>
+    </svg>
+  </div>
 
-    </body>
+  <!-- Insert link to app.js here -->
+  <script> var apiurl= "{{url()}}";</script>
+  <script src="{{url()}}/assets/js/jquery.js" ></script>
+  <script src="{{url()}}/assets/js/bootstrap.min.js" ></script>
+  <script type="text/javascript" src="{{url()}}/assets/js/loader.js"></script>
+  <script src="{{url()}}/assets/js/profile.js" async ></script>
+  
+</body>
 </html>

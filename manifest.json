@@ -1,0 +1,13 @@
+{
+  "short_name": "Worxogo",
+  "name": "Worxogo",
+  "icons": [
+    {
+      "src": "/worxogo/images/icons/worxogo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/worxogo/dashboard/index",
+  "display": "standalone"
+}

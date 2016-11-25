@@ -29,6 +29,16 @@ Route::group(array('prefix' => 'dashboard'), function() {
     Route::get('/index', "DashboardController@index");
     Route::get('/profile',"DashboardController@profile");
     Route::get('/leaderboard',"DashboardController@leaderboard");
+    // supervisor app routes
+    Route::get('/supervisorindex',"DashboardController@supervisorindex");
+    Route::get('/sendmsg',"DashboardController@sendmsg");
+    Route::get('/sendlike',"DashboardController@sendlike");
+    Route::get('/supprofile',"DashboardController@supprofile");
+    Route::get('/supervisorleaderboard/{obj_id}',"DashboardController@supleaderboard");
+    Route::get('/supervisorleaderboard',"DashboardController@supleaderboardwithoutid");
+
+    Route::get('/supleaderboardso/{so_empid}',"DashboardController@supleaderboardso");
+    
 });
 
 
@@ -68,7 +78,17 @@ Route::post('addobjectiveprogress','ObjectiveController@uploadObjectiveprogress'
 
 
 Route::group(array('prefix' => 'quick'), function() {
-    
+
+    //supervisor routes
+    Route::any('getSupervisorDashboardData','DashboardController@getSupervisorDashboardData');
+    Route::any('getSupervisorLeaderboardData',"DashboardController@getSupervisorLeaderboardData");
+    Route::any('getSoDataForSupervisor',"DashboardController@getSoDataForSupervisor");
+
+    //user routes
+    Route::any('ajaxtest','DashboardController@ajaxtest');
+    Route::any('/getindexdata','DashboardController@getindexdata');
+    Route::any('/getprofiledata','DashboardController@getprofiledata');
+    Route::any('/getleaderboarddata','DashboardController@getleaderboarddata');
     Route::any('/uploaddata','AdminController@uploaddata');
     
     Route::any('/deleteCompanyById','DashboardController@deleteCompany');
@@ -83,7 +103,7 @@ Route::group(array('prefix' => 'quick'), function() {
     Route::any('/registeruser','VaultController@registeruser');
     
     Route::any('/checkmobilenumbervalid','VaultController@checkMobileNumberValidForChangePassword');
-    Route::any('otppasswordcheckforforgotpassword','vaultController@otppasswordcheckforforgotpassword');
+    Route::any('otppasswordcheckforforgotpassword','VaultController@otppasswordcheckforforgotpassword');
     Route::any('/UpdatePassword','VaultController@UpdatePassword');
 });
 
