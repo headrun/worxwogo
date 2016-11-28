@@ -27,7 +27,7 @@ body{
  .card-title {
      
      color: black;
-     margin-top:20px;
+     margin-top:10px;
  }
 
 .footerbutton {
@@ -90,8 +90,15 @@ body{
   padding:5px;
 }
 
-
-
+.supprofilenavbar{
+  background-color:#00BBD3;
+}
+.toolbarname{
+  color:white;
+}
+.toolbarname:hover{
+  color:#337ab7;
+}
 @media(max-width:400px){
   .heading{
     font-size:12px;
@@ -160,7 +167,17 @@ body{
   }
   .tooltip > .tooltip-inner {background-color: orange; padding:5px 10px; color:rgb(23,44,66);margin-top:-29px; text-align:center;color:white;  }
   .popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
+  
+  .pointsbox{
+    width:80%;
+    margin-right:5px;
+    float:right;
 
+   }
+   .leaderboardpoints{
+    width:100%;
+    float:right;
+  }
 
 }
 @media(min-width:400px) {
@@ -204,6 +221,16 @@ body{
   .footer{
     padding:12px!important;
   }
+  .pointsbox{
+  width:80%;
+  margin-right:5px;
+  float:right;
+
+  }
+  .leaderboardpoints{
+  width:60%;
+  float:right;
+}
 }
 @media(min-width:768px) {
 .tooltip{
@@ -256,6 +283,15 @@ body{
 .tooltip > .tooltip-inner {background-color: orange; padding:5px 15px; color:rgb(23,44,66);margin-top:-30px; text-align:center;color:white;  }
 .popOver + .tooltip > .tooltip-arrow {  border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid orange;margin-left:-10px;}
 
+.pointsbox{
+  width:80%;
+  margin-right:5px;
+  float:right;
+}
+.leaderboardpoints{
+  width:40%;
+  float:right;
+}
 }
 
 @media(min-width:992px) {
@@ -281,7 +317,15 @@ body{
  .footer{
     padding:12px!important;
   }
-
+.pointsbox{
+  width:60%;
+  margin-right:5px;
+  float:right;
+}
+.leaderboardpoints{
+  width:40%;
+  float:right;
+}
 }
 @media(min-width:1200px) {
 .heading{
@@ -305,6 +349,15 @@ body{
  .chart{
     margin-left:-10px;
   }
+ .pointsbox{
+  width:40%;
+  margin-right:5px;
+  float:right;
+}
+.leaderboardpoints{
+  width:40%;
+  float:right;
+}
 
 }
 
