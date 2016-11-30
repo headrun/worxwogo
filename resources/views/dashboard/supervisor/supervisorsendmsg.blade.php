@@ -51,6 +51,10 @@
 	border:none;
 	box-shadow:none;
 }
+.charcount{
+	color:gray;
+	font-size: 12px;
+}
 </style>
 
 
@@ -74,7 +78,41 @@
   });
 
   $('.footermsgbutton').addClass('active');
+
+//events
   
+  $('.msg').keyup(function(){
+  		if(($('.msg').val()).length > 100){
+  			$('.charcount').css('color','red');
+  			$('.charcount').html('100 characters exceeded !');
+  			$('.charcountlabel').hide();
+  			$('.send-msg-btn').addClass('disabled');
+
+  		}else{
+  			$('.charcount').html('Characters Left:<span class="charcountlabel"></span>' );
+  			$('.charcount').css('color','gray');
+  			$('.charcountlabel').html(100-($('.msg').val()).length);
+  			$('.send-msg-btn').removeClass('disabled');
+  		}
+
+      if(($('.msg').val()).length ==0){
+        $('.send-msg-btn').addClass('disabled');        
+      }
+  });
+
+  $('.send-msg-btn').click(function(){
+    console.log('sending');
+  	$.ajax({
+		  type: "POST",
+		  url: "{{URL::to('/quick/sendtextmsg')}}",
+      data: {'emp_id':$('.select_emp').val(),'msg':$('.msg').val()},
+		  dataType: 'json',
+		  success: function(response){
+        console.log(response);
+      }
+    });
+  });
+
 
 </script>
 @stop
@@ -89,8 +127,30 @@ Send Message
 <div class="card adduserscard">
 	
 	<div class=" card-block ">
-	 <h4 class="addnames">Names Here</h4>
-	 <i class="fa fa-plus-circle fa-2x btn openmodal" data-backdrop="static" data-keyboard="false" aria-hidden="true"></i>
+	<em>Select User</em>
+	<select class="form-control select_emp">
+		@foreach($emp_list as $emp)
+			<option value="{{$emp->emp_code}}">{{$emp->name}}</option>
+		@endforeach
+	</select>
+	<!--
+	 <div class=" obj_dropdowndiv  dropdown">
+            <?php for($i=0;$i<count($emp_list);$i++){ 
+            if($i==0){
+            ?>
+            <button class="btn btn-default dropdown-toggle" value="{{$emp_list[$i]['emp_code']}}" type="button" data-toggle="dropdown" style="width:100%">
+            {{$emp_list[$i]['name']}}
+            <span class="caret text-right"></span>
+            </button>
+            <ul class="dropdown-menu" style="width:100%">
+            <?php }else{?>
+            	<li value="{{$emp_list[$i]['emp_code']}}"><a href="#">{{$emp_list[$i]['name']}}</a></li>
+            <?php }
+            }
+            ?>
+
+			</ul>
+	-->
 	</div>
 	
 </div>
@@ -100,9 +160,9 @@ Send Message
 	<div class="row text">
 		
 		<div class="form-group">
-  		<textarea class="form-control" rows="5" id="liketext" placeholder="Say Something"></textarea>
-  		<br>
-  		<button class="send-msg-btn btn  btn-sm" >Send <i class="fa fa-envelope-open" aria-hidden="true"></i></button>
+  		<textarea class="form-control msg" rows="3" id="liketext" placeholder="Say Something" ></textarea>
+  		<p class="charcount center-block text-center">Characters Left: <span class="charcountlabel">100</span></p>
+  		<button class="send-msg-btn btn  btn-sm disabled" >Send <i class="fa fa-envelope-open" aria-hidden="true"></i></button>
 		</div>
 
 	</div>
@@ -121,23 +181,7 @@ Send Message
   </div>
   <!--/.Card-->		
 
-	<!-- Modal -->
-  <div class="modal fade" id="addusermodal" role="dialog">
-    <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Add Users</h4>
-        </div>
-        <div class="modal-body">
-          <p>Users Here.</p>
-        </div>
-        <div class="modal-footer">
-        	<button type="button" class="btn btn-primary addusers">Add Users</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        </div>
-      </div>
-    </div>
-  </div>
+	
 
 @stop
 

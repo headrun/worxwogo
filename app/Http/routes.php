@@ -83,6 +83,7 @@ Route::group(array('prefix' => 'quick'), function() {
     Route::any('getSupervisorDashboardData','DashboardController@getSupervisorDashboardData');
     Route::any('getSupervisorLeaderboardData',"DashboardController@getSupervisorLeaderboardData");
     Route::any('getSoDataForSupervisor',"DashboardController@getSoDataForSupervisor");
+    Route::any('sendtextmsg',"DashboardController@sendtextmsg");
 
     //user routes
     Route::any('ajaxtest','DashboardController@ajaxtest');

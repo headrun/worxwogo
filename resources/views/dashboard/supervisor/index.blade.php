@@ -40,18 +40,24 @@
   border:solid 2px goldenrod;
   border-radius:5px;
   color:goldenrod;
-  /*margin-top:-15px;*/
-  padding: 5px;
-  width:80%;
+  /*margin-top:-15px;
+  padding: 5px;*/
+
 }
 
 .card-widget{
   margin-bottom:20px;
-  margin-top:30px;
+  margin-top:20px;
 }
 
 .tooltip{
   z-index:1000;
+}
+.removedpercentagefields{
+  position: relative;
+  color: black;
+  margin-top:25px;
+} 
 }
 </style>
 
@@ -83,7 +89,7 @@ My Team Progress
 
 <card hidden>
     <!--Card-->
-    <div class="card" title="">
+    <div class="card cardcopy" title="">
       <!--Card content-->
       <div class="card-block">
         <!--Title-->

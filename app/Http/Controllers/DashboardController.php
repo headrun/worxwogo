@@ -12,6 +12,7 @@ use App\Objective;
 use App\Objectiveprogress;
 use App\Objectiveleaderboard;
 use App\Badges;
+use App\Msg;
 use DB;
 use Response;
 use Illuminate\Support\Facades\Redirect;
@@ -670,10 +671,29 @@ class DashboardController extends Controller
 
     public function sendmsg(){
       if(Auth::check() && (Session::get('userType')=='SUPERVISOR')){
-        return view('dashboard/supervisor/supervisorsendmsg');    
+        $emp_list=User::where('client_id','=',Session::get('clientId'))
+                        ->where('reporting_user',Session::get('empId'))
+                        ->where('status','=','A')
+                        ->get();
+        $dataToView = array('emp_list');                  
+        return view('dashboard/supervisor/supervisorsendmsg',compact($dataToView));    
       }else{
         return Redirect::action('VaultController@logout');
       }
+    }
+
+    public function sendtextmsg(){
+      if(Auth::check() && (Session::get('userType')=='SUPERVISOR')){
+        $inputs=Input::all();
+
+        $new_msg=Msg::addMsg($inputs);
+
+        if($new_msg){
+          return Response::json(array('status'=>'success','data'=>$inputs));
+        }
+      }
+        return Response::json(array('status'=>'failure'));   
+      
     }
 
     public function sendlike(){

@@ -38,12 +38,7 @@
         
         <div class="nav navbar-nav navbar-right ">
           
-          @section('navbarName')
-
-          <a href="{{url()}}/dashboard/supprofile"><h1 class="heading name" style="display:inline-block;">{{Session::get('name')}}</h1></a>
-
-          @stop
-          @yield('navbarName')
+          
 
           <a  class="signoutbtn" href="{{url()}}/vault/logout"><i class="fa fa-sign-out text-right fa-4x" aria-hidden="true" ></i></a>
          <!-- <img class="logo-brand" src="{{url()}}/assets/avatars/user.png"/>-->
@@ -56,7 +51,15 @@
   </header>
   
   <main class="main bodydata"  >
+      @yield ('SupervisorProfileToolbar')
+        @section('navbarName')
+          <div class="supprofilenavbar center-block text-center">
+            <a href="{{url()}}/dashboard/supprofile"><h4 class="username toolbarname" style="display:inline-block;"><i class="fa fa-user-o" aria-hidden="true"></i> &nbsp;{{Session::get('name')}}</h4></a>
+          </div>
 
+          @stop
+
+          @yield('navbarName')
       @yield('toolbar')
     <div class="container-fluid cards"  >
       @yield('mainBody')

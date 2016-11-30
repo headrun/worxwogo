@@ -89,6 +89,7 @@
                         </div>
                        
                     </div>
+                    <?php if(Session::get('clientId')=='45'){ ?>
                     <div class="tab-pane" id="2b">
                         <h5>How to Earn Points ?</h5>
                         <table class="table-condensed table-responsive" width="100%" > 
@@ -188,6 +189,92 @@
                         
                         
                     </div>
+                    <?php }else{?>
+                    <div class="tab-pane" id="2b">
+                        <h5>How to Earn Points ?</h5>
+                        <table class="table-condensed table-responsive" width="100%" > 
+                            <thead class="tableheading">
+                                <tr>
+                                <th>Sr</th>
+                                <th>Activity</th>
+                                <th>Description</th>
+                                <th>Points</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr >
+                                    <td>1</td>
+                                    <td>Sales Value</td>
+                                    <td>Every % achievement of MSP (in Rs. Lacs) against the monthly target</td>
+                                    <td class="text-right">20</td>
+                                </tr>
+                                <tr class="color-lightgrey">
+                                    <td rowspan="2">2</td>
+                                    <td rowspan="2">Sales Quantity Category -1</td>
+                                    <td>If the percentage target achievement for the Category 1 is between 70-89%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr class="color-lightgrey">
+                                        <td>If the percentage target achievement for the Category 1 is greater than 90%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr >
+                                    <td rowspan="2">3</td>
+                                    <td rowspan="2">Category -2</td>
+                                    <td>If the percentage target achievement for the Category 2 is between 50-69%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr>
+                                        <td>If the percentage target achievement for the Category 2 is greater than 70%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr class="color-lightgrey">
+                                    <td rowspan="2">4</td>
+                                    <td rowspan="2">Conversion Rate</td>
+                                    <td>If the Conversion Rate is between 70-89%</td>
+                                    <td class="text-right">200</td>
+                                </tr>
+                                    <tr style="background-color:lightgrey;">
+                                        <td>If the Conversion Rate is greater than 90%</td>
+                                        <td class="text-right">500</td>
+                                    </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Market Activities</td>
+                                    <td>For every Market activity conducted</td>
+                                    <td class="text-right">1000</td>
+                                </tr>
+                                <tr class="color-lightgrey">
+                                    <td>6</td>
+                                    <td>Dealer Appointment</td>
+                                    <td>For every New dealer appointed</td>
+                                    <td class="text-right">2000</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>Dealer Investment Growth</td>
+                                    <td>Every % increment in Dealer Investment </td>
+                                    <td class="text-right">100</td>
+                                </tr>
+                                <tr class="color-lightgrey">
+                                    <td rowspan="2">8</td>
+                                    <td rowspan="2">Beat Plan</td>
+                                    <td>If Beat Plan adherence on a daily basis is between 80-89%</td>
+                                    <td class="text-right">50</td>
+                                </tr>
+                                <tr class="color-lightgrey">
+                                        <td>If Beat Plan adherence on a daily basis is between 90-100%</td>
+                                        <td class="text-right">100</td>
+                                </tr>
+                                    
+                                
+                        </table>
+                        <br>
+                        
+                        
+                    </div>
+
+                    <?php } ?>
                     <div class="tab-pane" id="3b">
                         <table class="table-condensed table-responsive" width="100%">
                             <thead>
